@@ -555,10 +555,10 @@
     <div class="chat-container">
         <div class="chat-header" style="position:relative;">
             <div class="header-top">
-                <div class="header-logo">B</div>
+                <div class="header-logo">N</div>
                 <div class="header-text">
-                    <h1>BINU Assistant</h1>
-                    <p>AI-powered ERP documentation helper</p>
+                    <h1>NovaTech Assistant</h1>
+                    <p>AI-powered internal knowledge base</p>
                 </div>
                 <div class="header-online" title="Online"></div>
             </div>
@@ -573,14 +573,14 @@
 
         <div class="chat-messages" id="chatMessages">
             <div class="message bot" id="welcomeMessage">
-                <div class="msg-avatar">B</div>
+                <div class="msg-avatar">N</div>
                 <div class="message-body">
                     <div class="message-content">
                         <div id="welcomeText">
-                            <p>Hi! I'm BINU AI Assistant — your intelligent guide to the BINU ERP system. I can help you with:</p>
-                            <p>• Business processes and workflows</p>
-                            <p>• Step-by-step instructions</p>
-                            <p>• Module navigation</p>
+                            <p>Hi! I'm NovaTech Assistant — your intelligent guide to NovaTech Consulting's knowledge base. I can help you with:</p>
+                            <p>• Project information and client history</p>
+                            <p>• Team skills and consultant experience</p>
+                            <p>• Methodologies and lessons learned</p>
                             <p>What would you like to know?</p>
                         </div>
                         <div class="message-time" id="welcomeTime"></div>
@@ -591,7 +591,7 @@
 
         <div class="typing-indicator" id="typingIndicator">
             <div class="message bot">
-                <div class="msg-avatar">B</div>
+                <div class="msg-avatar">N</div>
                 <div class="message-body">
                     <div class="typing-bubble">
                         <div class="typing-dot"></div>
@@ -604,7 +604,7 @@
 
         <div class="chat-input-container">
             <div class="chat-input-wrapper">
-                <textarea id="chatInput" placeholder="Ask me about the ERP system..." rows="1"></textarea>
+                <textarea id="chatInput" placeholder="Ask me about NovaTech projects, clients, or team..." rows="1"></textarea>
                 <button id="sendButton" disabled>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
@@ -635,9 +635,7 @@
         class ERPChatbot {
             constructor() {
                 this.sessionId = null;
-                this.apiBase = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost'
-                    ? 'http://127.0.0.1:8080/api'
-                    : window.location.origin + '/api';
+                this.apiBase = window.location.origin + '/api';
 
                 this.isWidgetMode = window.self !== window.top;
 
@@ -709,20 +707,20 @@
 
             async translateWelcome(language) {
                 const welcomeTexts = {
-                    'English':   'Hi! I\'m BINU AI Assistant — your intelligent guide to the BINU ERP system. I can help you with:<br>• Business processes and workflows<br>• Step-by-step instructions<br>• Module navigation<br>What would you like to know?',
-                    'Russian':   'Привет! Я BINU AI Assistant — ваш интеллектуальный помощник по системе BINU ERP. Я могу помочь вам с:<br>• Бизнес-процессами и рабочими процессами<br>• Пошаговыми инструкциями<br>• Навигацией по модулям<br>Что вы хотели бы узнать?',
-                    'Croatian':  'Zdravo! Ja sam BINU AI Assistant — vaš inteligentni vodič kroz BINU ERP sustav. Mogu vam pomoći s:<br>• Poslovnim procesima i radnim tokovima<br>• Uputama korak po korak<br>• Navigacijom po modulima<br>Što biste željeli znati?',
-                    'Serbian':   'Zdravo! Ja sam BINU AI Assistant — vaš inteligentni vodič kroz BINU ERP sistem. Mogu vam pomoći sa:<br>• Poslovnim procesima i radnim tokovima<br>• Uputstvima korak po korak<br>• Navigacijom kroz module<br>Šta biste željeli da znate?',
-                    'Slovenian': 'Pozdravljeni! Sem BINU AI Assistant — vaš inteligentni vodnik po sistemu BINU ERP. Lahko vam pomagam z:<br>• Poslovnimi procesi in delovnimi tokovi<br>• Navodili po korakih<br>• Navigacijo po modulih<br>Kaj bi radi izvedeli?',
-                    'German':    'Hallo! Ich bin BINU AI Assistant — Ihr intelligenter Leitfaden für das BINU ERP-System. Ich kann Ihnen helfen mit:<br>• Geschäftsprozessen und Arbeitsabläufen<br>• Schritt-für-Schritt-Anleitungen<br>• Modulnavigation<br>Was möchten Sie wissen?',
-                    'French':    'Bonjour! Je suis BINU AI Assistant — votre guide intelligent pour le système BINU ERP. Je peux vous aider avec:<br>• Les processus métier et les flux de travail<br>• Des instructions étape par étape<br>• La navigation dans les modules<br>Que souhaitez-vous savoir?',
-                    'Italian':   'Ciao! Sono BINU AI Assistant — la tua guida intelligente al sistema BINU ERP. Posso aiutarti con:<br>• Processi aziendali e flussi di lavoro<br>• Istruzioni passo dopo passo<br>• Navigazione dei moduli<br>Cosa vorresti sapere?',
-                    'Spanish':   '¡Hola! Soy BINU AI Assistant — tu guía inteligente para el sistema BINU ERP. Puedo ayudarte con:<br>• Procesos empresariales y flujos de trabajo<br>• Instrucciones paso a paso<br>• Navegación por módulos<br>¿Qué te gustaría saber?',
-                    'Turkish':   'Merhaba! Ben BINU AI Assistant — BINU ERP sistemi için akıllı rehberiniz. Size şu konularda yardımcı olabilirim:<br>• İş süreçleri ve iş akışları<br>• Adım adım talimatlar<br>• Modül navigasyonu<br>Ne öğrenmek istersiniz?',
-                    'Romanian':  'Bună! Sunt BINU AI Assistant — ghidul dvs. inteligent pentru sistemul BINU ERP. Vă pot ajuta cu:<br>• Procese de afaceri și fluxuri de lucru<br>• Instrucțiuni pas cu pas<br>• Navigarea modulelor<br>Ce doriți să aflați?',
-                    'Bulgarian': 'Здравейте! Аз съм BINU AI Assistant — вашият интелигентен наръчник за BINU ERP системата. Мога да ви помогна с:<br>• Бизнес процеси и работни потоци<br>• Инструкции стъпка по стъпка<br>• Навигация в модулите<br>Какво бихте искали да знаете?',
-                    'Hungarian': 'Szia! Én vagyok a BINU AI Assistant — intelligens útmutatód a BINU ERP rendszerhez. Segíthetek neked:<br>• Üzleti folyamatok és munkafolyamatok<br>• Lépésről lépésre szóló utasítások<br>• Modulok navigációja<br>Mit szeretnél megtudni?',
-                    'Ukrainian': 'Привіт! Я BINU AI Assistant — ваш інтелектуальний помічник з системи BINU ERP. Я можу допомогти вам з:<br>• Бізнес-процесами та робочими процесами<br>• Покроковими інструкціями<br>• Навігацією по модулях<br>Що ви хотіли б дізнатися?',
+                    'English':   'Hi! I\'m NovaTech Assistant — your intelligent guide to NovaTech Consulting\'s knowledge base. I can help you with:<br>• Project information and client history<br>• Team skills and consultant experience<br>• Methodologies and lessons learned<br>What would you like to know?',
+                    'Russian':   'Привет! Я NovaTech Assistant — ваш интеллектуальный помощник по базе знаний NovaTech Consulting. Я могу помочь вам с:<br>• Информацией о проектах и истории клиентов<br>• Навыками команды и опытом консультантов<br>• Методологиями и извлечёнными уроками<br>Что вы хотели бы узнать?',
+                    'Croatian':  'Zdravo! Ja sam NovaTech Assistant — vaš inteligentni vodič kroz bazu znanja NovaTech Consultinga. Mogu vam pomoći s:<br>• Informacijama o projektima i povijesti klijenata<br>• Vještinama tima i iskustvom konzultanata<br>• Metodologijama i naučenim lekcijama<br>Što biste željeli znati?',
+                    'Serbian':   'Zdravo! Ja sam NovaTech Assistant — vaš inteligentni vodič kroz bazu znanja NovaTech Consultinga. Mogu vam pomoći sa:<br>• Informacijama o projektima i istoriji klijenata<br>• Veštinama tima i iskustvom konsultanata<br>• Metodologijama i naučenim lekcijama<br>Šta biste željeli da znate?',
+                    'Slovenian': 'Pozdravljeni! Sem NovaTech Assistant — vaš inteligentni vodnik po bazi znanja NovaTech Consultinga. Lahko vam pomagam z:<br>• Informacijami o projektih in zgodovini strank<br>• Veščinami ekipe in izkušnjami svetovalcev<br>• Metodologijami in pridobljenimi izkušnjami<br>Kaj bi radi izvedeli?',
+                    'German':    'Hallo! Ich bin NovaTech Assistant — Ihr intelligenter Leitfaden durch die Wissensdatenbank von NovaTech Consulting. Ich kann Ihnen helfen mit:<br>• Projektinformationen und Kundenhistorie<br>• Teamkenntnissen und Beraterfahrung<br>• Methoden und Lessons Learned<br>Was möchten Sie wissen?',
+                    'French':    'Bonjour! Je suis NovaTech Assistant — votre guide intelligent dans la base de connaissances de NovaTech Consulting. Je peux vous aider avec:<br>• Informations sur les projets et historique clients<br>• Compétences de l\'équipe et expérience des consultants<br>• Méthodologies et leçons apprises<br>Que souhaitez-vous savoir?',
+                    'Italian':   'Ciao! Sono NovaTech Assistant — la tua guida intelligente alla base di conoscenze di NovaTech Consulting. Posso aiutarti con:<br>• Informazioni sui progetti e storia dei clienti<br>• Competenze del team ed esperienza dei consulenti<br>• Metodologie e lezioni apprese<br>Cosa vorresti sapere?',
+                    'Spanish':   '¡Hola! Soy NovaTech Assistant — tu guía inteligente en la base de conocimientos de NovaTech Consulting. Puedo ayudarte con:<br>• Información sobre proyectos e historial de clientes<br>• Habilidades del equipo y experiencia de consultores<br>• Metodologías y lecciones aprendidas<br>¿Qué te gustaría saber?',
+                    'Turkish':   'Merhaba! Ben NovaTech Assistant — NovaTech Consulting\'in bilgi tabanında akıllı rehberiniz. Size şu konularda yardımcı olabilirim:<br>• Proje bilgileri ve müşteri geçmişi<br>• Ekip becerileri ve danışman deneyimi<br>• Metodolojiler ve öğrenilen dersler<br>Ne öğrenmek istersiniz?',
+                    'Romanian':  'Bună! Sunt NovaTech Assistant — ghidul dvs. inteligent în baza de cunoștințe NovaTech Consulting. Vă pot ajuta cu:<br>• Informații despre proiecte și istoricul clienților<br>• Competențele echipei și experiența consultanților<br>• Metodologii și lecții învățate<br>Ce doriți să aflați?',
+                    'Bulgarian': 'Здравейте! Аз съм NovaTech Assistant — вашият интелигентен наръчник в базата знания на NovaTech Consulting. Мога да ви помогна с:<br>• Информация за проекти и история на клиентите<br>• Умения на екипа и опит на консултантите<br>• Методологии и извлечени уроци<br>Какво бихте искали да знаете?',
+                    'Hungarian': 'Szia! Én vagyok a NovaTech Assistant — intelligens útmutatód a NovaTech Consulting tudásbázisában. Segíthetek neked:<br>• Projektinformációk és ügyfélhistória<br>• Csapatképességek és tanácsadói tapasztalat<br>• Módszertanok és tanulságok<br>Mit szeretnél megtudni?',
+                    'Ukrainian': 'Привіт! Я NovaTech Assistant — ваш інтелектуальний помічник у базі знань NovaTech Consulting. Я можу допомогти вам з:<br>• Інформацією про проекти та історією клієнтів<br>• Навичками команди та досвідом консультантів<br>• Методологіями та отриманими уроками<br>Що ви хотіли б дізнатися?',
                 };
 
                 const text = welcomeTexts[language] || welcomeTexts['English'];
@@ -875,7 +873,7 @@
 
                 const avatarDiv = document.createElement('div');
                 avatarDiv.className = 'msg-avatar';
-                avatarDiv.textContent = sender === 'bot' ? 'B' : 'U';
+                avatarDiv.textContent = sender === 'bot' ? 'N' : 'U';
 
                 const bodyDiv = document.createElement('div');
                 bodyDiv.className = 'message-body';
@@ -898,29 +896,21 @@
                     const sourcesDiv = document.createElement('div');
                     sourcesDiv.className = 'sources';
 
-                    sources.forEach((source) => {
+                    sources.forEach((source, idx) => {
                         const sourceItem = document.createElement('div');
                         sourceItem.className = 'source-item';
-                        let sourceHtml = '';
 
-                        if (source.title) {
-                            const sourceLink = source.link
-                                ? `<a href="https://chat.rwave.eu/api/document?path=${encodeURIComponent(source.link)}" target="_blank" style="color:#1E6A95;text-decoration:underline;">${source.title}</a>`
-                                : source.title;
-                            sourceHtml += `<div class="source-title">${sourceLink}</div>`;
-                        }
+                        const num = source.index || (idx + 1);
+                        const name = source.filename || source.title || 'Document';
+                        const type = source.type
+                            ? `<span style="color:#a0b4c0;font-size:10px;margin-left:6px;text-transform:uppercase;">${source.type.replace('_', ' ')}</span>`
+                            : '';
 
-                        if (source.snippets && source.snippets.length > 0) {
-                            source.snippets.forEach((snippet) => {
-                                if (snippet && snippet.trim()) {
-                                    const maxLength = this.isWidgetMode ? 150 : 200;
-                                    const short = snippet.length > maxLength ? snippet.substring(0, maxLength) + '...' : snippet;
-                                    sourceHtml += `<div class="source-snippet">${short}</div>`;
-                                }
-                            });
-                        }
-
-                        sourceItem.innerHTML = sourceHtml;
+                        sourceItem.innerHTML = `
+                            <div class="source-title">
+                                <span style="color:#1E6A95;font-size:11px;font-weight:600;margin-right:6px;">[${num}]</span>
+                                ${name}${type}
+                            </div>`;
                         sourcesDiv.appendChild(sourceItem);
                     });
 

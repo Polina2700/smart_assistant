@@ -1,0 +1,125 @@
+{
+  "timestamp": "2026-05-27T22:30:51.148008",
+  "session": "eval_20260527_223043",
+  "total_questions": 5,
+  "total_score": 46,
+  "max_possible": 60,
+  "overall_pct": 76.7,
+  "by_category": {
+    "simple": {
+      "questions": 5,
+      "avg_score": 9.2,
+      "avg_pct": 76.7
+    }
+  },
+  "results": [
+    {
+      "id": "S01",
+      "category": "simple",
+      "question": "Who was the project manager for FoodDist?",
+      "expected": "Sarah Chen",
+      "actual_answer": "I don't have information in the NovaTech knowledge base to answer this.",
+      "sources": [
+        "mn_007_autoparts_closure.md",
+        "mn_011_balkanssteel_postmortem.md",
+        "mn_006_greenenergy_kickoff.md"
+      ],
+      "confidence": "none",
+      "latency_seconds": 0.56,
+      "scores": {
+        "correctness": 0,
+        "hallucination": 3,
+        "source_citation": 0,
+        "uncertainty": 3,
+        "total": 6,
+        "explanation": "The system's answer is incorrect due to lack of information, but it correctly refuses to make up an answer, handling uncertainty properly. The system does not provide any source citation, as it does not provide any information, resulting in a score of 0 for source citation."
+      }
+    },
+    {
+      "id": "S02",
+      "category": "simple",
+      "question": "What was the total budget for the Adriatic Petrochemical project?",
+      "expected": "€280,000 (Phase 1 €161,000 + Phase 2 €119,000)",
+      "actual_answer": "I don't have information in the NovaTech knowledge base to answer this.",
+      "sources": [
+        "mn_004_internal_lessons_q2.md",
+        "mn_007_autoparts_closure.md",
+        "mn_006_greenenergy_kickoff.md"
+      ],
+      "confidence": "none",
+      "latency_seconds": 0.47,
+      "scores": {
+        "correctness": 0,
+        "hallucination": 3,
+        "source_citation": 0,
+        "uncertainty": 3,
+        "total": 6,
+        "explanation": "The AI assistant scored 0 on correctness because it did not provide the correct answer, but it scored 3 on hallucination and uncertainty because it correctly refused to make up an answer and acknowledged the lack of information in the knowledge base. The score of 0 on source citation is due to the absence of any references or citations in the response."
+      }
+    },
+    {
+      "id": "S03",
+      "category": "simple",
+      "question": "Which NovaTech consultant has experience with SAP S/4HANA Public Cloud?",
+      "expected": "Anna Wolff — the only consultant with public cloud experience",
+      "actual_answer": "Anna Wolff is the NovaTech consultant with SAP S/4HANA Public Cloud experience [1], [2], [3].",
+      "sources": [
+        "mn_006_greenenergy_kickoff.md",
+        "pp_004_greenenergy.md",
+        "tr_001_sap_cloud_framework.md"
+      ],
+      "confidence": "low",
+      "latency_seconds": 0.3,
+      "scores": {
+        "correctness": 3,
+        "hallucination": 3,
+        "source_citation": 3,
+        "uncertainty": 3,
+        "total": 12,
+        "explanation": "The system's answer is fully correct, provides clear source citations, and does not exhibit hallucinations or uncertainty issues, as it directly answers the question with proper attribution. The response demonstrates a high level of accuracy and adherence to proper citation practices."
+      }
+    },
+    {
+      "id": "S04",
+      "category": "simple",
+      "question": "What SAP modules were implemented for FoodDist Logistics?",
+      "expected": "WM, MM, PP-PI (Warehouse Management, Materials Management, Production Planning)",
+      "actual_answer": "SAP S/4HANA MM/WM/PP-PI modules were implemented for FoodDist Logistics [1], [2].",
+      "sources": [
+        "tbl_001_project_portfolio.csv",
+        "pp_003_biomed_sap.md",
+        "pp_001_adriatic_petrochemical.md"
+      ],
+      "confidence": "low",
+      "latency_seconds": 0.56,
+      "scores": {
+        "correctness": 2,
+        "hallucination": 3,
+        "source_citation": 3,
+        "uncertainty": 3,
+        "total": 11,
+        "explanation": "The system's answer is mostly correct, but includes extra information about the SAP version, hence the correctness score is 2. The system properly cites its sources and does not exhibit hallucination, and it also handles uncertainty correctly by providing a direct answer to the question without introducing any contradictions or uncertainties."
+      }
+    },
+    {
+      "id": "S05",
+      "category": "simple",
+      "question": "What is NovaTech's hourly rate for change requests in 2023?",
+      "expected": "€150 per hour regardless of consultant level",
+      "actual_answer": "NovaTech's hourly rate for change requests in 2023 is €150 [1].",
+      "sources": [
+        "tbl_004_billing_rates.csv"
+      ],
+      "confidence": "low",
+      "latency_seconds": 0.49,
+      "scores": {
+        "correctness": 3,
+        "hallucination": 3,
+        "source_citation": 2,
+        "uncertainty": 3,
+        "total": 11,
+        "explanation": "The system's answer is fully correct and does not contain any hallucinations, with a clear statement of the hourly rate. The source citation is given as [1], which is a general reference, and the system does not express any uncertainty as the question has a clear answer."
+      }
+    }
+  ]
+}

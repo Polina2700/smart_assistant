@@ -1,0 +1,107 @@
+{
+  "timestamp": "2026-05-27T22:25:45.284347",
+  "session": "eval_20260527_222529",
+  "total_questions": 5,
+  "total_score": 24,
+  "max_possible": 60,
+  "overall_pct": 40.0,
+  "by_category": {
+    "simple": {
+      "questions": 5,
+      "avg_score": 4.8,
+      "avg_pct": 40.0
+    }
+  },
+  "results": [
+    {
+      "id": "S01",
+      "category": "simple",
+      "question": "Who was the project manager for FoodDist?",
+      "expected": "Sarah Chen",
+      "actual_answer": "ERROR: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))",
+      "sources": [],
+      "confidence": "error",
+      "latency_seconds": 2.04,
+      "scores": {
+        "correctness": 0,
+        "hallucination": 3,
+        "source_citation": 0,
+        "uncertainty": 3,
+        "total": 6,
+        "explanation": "The system's answer is incorrect due to a connection error, but it does not provide any false information, thus avoiding hallucination. The system correctly refuses to provide an answer, handling uncertainty by not making up a response, but it lacks source citation."
+      }
+    },
+    {
+      "id": "S02",
+      "category": "simple",
+      "question": "What was the total budget for the Adriatic Petrochemical project?",
+      "expected": "€280,000 (Phase 1 €161,000 + Phase 2 €119,000)",
+      "actual_answer": "ERROR: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))",
+      "sources": [],
+      "confidence": "error",
+      "latency_seconds": 2.03,
+      "scores": {
+        "correctness": 0,
+        "hallucination": 3,
+        "source_citation": 0,
+        "uncertainty": 3,
+        "total": 6,
+        "explanation": "The AI assistant failed to provide a correct answer due to a connection error, resulting in a score of 0 for correctness. However, it did not provide any fabricated information, thus scoring 3 for hallucination, and it correctly refused to provide an answer, scoring 3 for uncertainty."
+      }
+    },
+    {
+      "id": "S03",
+      "category": "simple",
+      "question": "Which NovaTech consultant has experience with SAP S/4HANA Public Cloud?",
+      "expected": "Anna Wolff — the only consultant with public cloud experience",
+      "actual_answer": "ERROR: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))",
+      "sources": [],
+      "confidence": "error",
+      "latency_seconds": 2.05,
+      "scores": {
+        "correctness": 0,
+        "hallucination": 3,
+        "source_citation": 0,
+        "uncertainty": 0,
+        "total": 3,
+        "explanation": "The system's answer is incorrect due to a connection error, and it does not provide any relevant information about the consultant with SAP S/4HANA Public Cloud experience. The system does not hallucinate or make up any information, but it also fails to handle the uncertainty or provide a correct answer."
+      }
+    },
+    {
+      "id": "S04",
+      "category": "simple",
+      "question": "What SAP modules were implemented for FoodDist Logistics?",
+      "expected": "WM, MM, PP-PI (Warehouse Management, Materials Management, Production Planning)",
+      "actual_answer": "ERROR: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))",
+      "sources": [],
+      "confidence": "error",
+      "latency_seconds": 2.04,
+      "scores": {
+        "correctness": 0,
+        "hallucination": 3,
+        "source_citation": 0,
+        "uncertainty": 0,
+        "total": 3,
+        "explanation": "The system's answer contains an error message and does not provide any relevant information about the SAP modules implemented for FoodDist Logistics, resulting in a correctness score of 0. The system does not make up any information, which is why it scores 3 for hallucination, but it fails to provide a proper source citation or handle uncertainty correctly."
+      }
+    },
+    {
+      "id": "S05",
+      "category": "simple",
+      "question": "What is NovaTech's hourly rate for change requests in 2023?",
+      "expected": "€150 per hour regardless of consultant level",
+      "actual_answer": "ERROR: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))",
+      "sources": [],
+      "confidence": "error",
+      "latency_seconds": 2.03,
+      "scores": {
+        "correctness": 0,
+        "hallucination": 3,
+        "source_citation": 0,
+        "uncertainty": 3,
+        "total": 6,
+        "explanation": "The system's answer does not provide any correct information about NovaTech's hourly rate, resulting in a correctness score of 0, but it does not make up any information, hence a hallucination score of 3. The system correctly refuses to provide an answer due to a connection error, handling uncertainty appropriately."
+      }
+    }
+  ]
+}
