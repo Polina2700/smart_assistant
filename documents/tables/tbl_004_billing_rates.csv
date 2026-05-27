@@ -1,0 +1,14 @@
+Role,Daily Rate (EUR),Hourly Rate (EUR),Valid From,Valid Until,Notes
+Director / Principal Consultant,1600,200,2023-01-01,2023-12-31,Lena Bauer only
+Senior ERP Architect,1400,175,2023-01-01,2023-12-31,Mark Horvat
+Senior Project Manager,1200,150,2023-01-01,2023-12-31,Sarah Chen
+Senior Functional Consultant,1200,150,2023-01-01,2023-12-31,Anna Wolff
+Technical Lead,1200,150,2023-01-01,2023-12-31,Riku Tanaka
+Functional Consultant,960,120,2023-01-01,2023-12-31,Tomasz Kowalski / Alex Müller
+Junior Consultant,640,80,2023-01-01,2023-12-31,Lisa Park / Nina Petrov / Jure Kovač
+Director / Principal Consultant,1400,175,2022-01-01,2022-12-31,Previous year rates
+Senior Consultant,1200,150,2022-01-01,2022-12-31,Previous year rates
+Functional Consultant,880,110,2022-01-01,2022-12-31,Previous year rates
+Junior Consultant,560,70,2022-01-01,2022-12-31,Previous year rates
+Change Request Rate,,,2023-01-01,2023-12-31,All change requests billed at €150/hour regardless of consultant level
+Emergency/Weekend Rate,,200,2023-01-01,2023-12-31,150% of standard hourly rate for weekend/holiday work

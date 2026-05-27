@@ -1,0 +1,11 @@
+Project,Client,Start Date,End Date,Status,Original Budget (EUR),Final Cost (EUR),Over/Under,PM,Lead Architect,Modules,Notes
+PRJ-2021-01,MediaGroup d.o.o.,2021-02-01,2021-08-30,Completed,145000,152000,+7000,Sarah Chen,Riku Tanaka,"Dynamics NAV to BC","Over budget due to custom report redesign (19 of 23 reports)"
+PRJ-2021-02,AutoParts d.d.,2021-05-15,2022-01-20,Completed,210000,198000,-12000,Mark Horvat,Mark Horvat,"SAP ECC FI/CO/MM","Under budget - client had good data quality"
+PRJ-2022-01,FoodDist Logistics d.d.,2022-03-01,2022-09-14,Completed,165000,158000,-7000,Sarah Chen,Riku Tanaka,"SAP S/4HANA MM/WM/PP-PI","On time, under budget"
+PRJ-2022-02,RetailPro Balkans d.o.o.,2022-12-01,,Cancelled,120000,18000,N/A,Sarah Chen,Riku Tanaka,"Dynamics 365 BC","Cancelled by client in January 2023 - budget freeze"
+PRJ-2023-01,Adriatic Petrochemical Ltd.,2023-03-15,,In Progress,280000,,,Sarah Chen,Mark Horvat,"SAP S/4HANA FI/CO/MM/PP","Phase 1 on track for Sep 2023"
+PRJ-2023-02,BioMed Solutions GmbH,2022-10-01,,In Progress,195000,,,Mark Horvat,Mark Horvat,"SAP ECC FI/CO/MM/QM","Over budget risk - data migration issues +22k CR pending"
+PRJ-2023-03,GreenEnergy Slovenia,2023-06-01,,In Progress,89000,,,Lisa Park,Anna Wolff,"SAP S/4HANA Public Cloud FI/CO","Lisa's first PM role"
+PRJ-2019-01,Balkans Steel d.o.o.,2019-01-15,2020-03-30,Completed,380000,425000,+45000,Lena Bauer,Mark Horvat,"SAP ECC Full Suite","Major scope creep - 3 change requests"
+PRJ-2020-01,PharmaCro d.d.,2020-06-01,2021-02-28,Completed,175000,168000,-7000,Mark Horvat,Riku Tanaka,"SAP ECC MM/QM","Pharma compliance - successful"
+PRJ-2020-02,LogiHub d.o.o.,2020-09-01,2021-06-15,Completed,130000,145000,+15000,Sarah Chen,Riku Tanaka,"Dynamics NAV implementation","COVID delays added cost"

@@ -1,0 +1,19 @@
+Technology,Category,NovaTech Status,Certified Consultants,Projects Delivered,Notes
+SAP ECC 6.0,ERP,Active,4,8,Being phased out - no new ECC projects from 2024
+SAP S/4HANA On-Premise,ERP,Active,3,5,Core offering
+SAP S/4HANA Private Cloud,ERP,Active,2,2,Growing demand
+SAP S/4HANA Public Cloud,ERP,Growing,1,1 (2nd in progress),Anna Wolff only - strategic growth area
+Microsoft Dynamics 365 BC,ERP,Active,2,3,Second largest offering after SAP
+Microsoft Dynamics NAV,ERP,Legacy,2,4,Migration to BC only - no new NAV implementations
+Oracle EBS,ERP,None,0,0,Not offered - referred to partners
+SAP ABAP,Development,Active,2,Multiple,Riku Tanaka (Expert) + Jure Kovač (Intermediate)
+SAP Fiori/SAPUI5,UX,Active,1,4,Riku Tanaka
+SAP Integration Suite,Integration,Active,2,3,
+Azure Logic Apps,Integration,Limited,1,2,
+MuleSoft,Integration,None,0,0,Assessed for RetailPro - not used
+Microsoft Azure,Cloud,Active,2,5,Partner status
+Google Cloud Platform,Cloud,None,0,0,No experience - referred to partners
+AWS,Cloud,None,0,0,No experience
+SAP BTP,Platform,None,0,0,Gap identified - training planned 2023
+Python,Programming,Active,3,Multiple,Data migration and integration scripting
+SQL,Programming,Active,4,Multiple,All consultants with database experience

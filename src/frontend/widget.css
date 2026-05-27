@@ -1,0 +1,38 @@
+/* frontend/widget.css */
+#erp-chatbot-button:hover {
+    background-color: #4338ca !important;
+    transform: scale(1.05) !important;
+}
+
+
+#erp-chatbot-button:active {
+    transform: scale(0.95) !important;
+}
+
+#erp-chatbot-window {
+    transition: opacity 0.3s ease, transform 0.3s ease !important;
+}
+
+/* Anim */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#erp-chatbot-window[style*="display: flex"] {
+    animation: slideIn 0.3s ease;
+}
+
+#erp-chatbot-window iframe {
+    display: block !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+}

@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERP Assistant - AI Documentation Helper</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body { margin: 0; padding: 0; width: 100%; }
+        .lang-pill-hidden { display: none; }
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: #eef4f8;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        body:not(.widget-mode) .chat-container {
+            width: 100%;
+            max-width: 800px;
+            height: 80vh;
+            background: #fff;
+            border-radius: 24px;
+            border: 1px solid #d0e4f0;
+            box-shadow: 0 8px 32px rgba(30,106,149,0.10);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        body.widget-mode {
+            padding: 0 !important;
+            min-height: 500px !important;
+            height: 500px !important;
+            background: transparent !important;
+            overflow: hidden !important;
+            display: block !important;
+        }
+
+        body.widget-mode .chat-container {
+            width: 100% !important;
+            height: 100% !important;
+            max-width: 100% !important;
+            border-radius: 16px !important;
+            box-shadow: none !important;
+            margin: 0 !important;
+            border: none !important;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: #fff;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ── HEADER ── */
+        .chat-header {
+            background: linear-gradient(135deg, #1E6A95 0%, #228BA0 100%);
+            color: white;
+            padding: 16px 18px 12px;
+            flex-shrink: 0;
+            border-radius: 22px 22px 0 0;
+        }
+
+        body.widget-mode .chat-header {
+            padding: 12px 14px 10px !important;
+            border-radius: 14px 14px 0 0 !important;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo {
+            width: 34px;
+            height: 34px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 600;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        body.widget-mode .header-logo {
+            width: 28px !important;
+            height: 28px !important;
+            font-size: 13px !important;
+        }
+
+        .header-text { flex: 1; }
+
+        .chat-header h1 {
+            font-size: 15px;
+            font-weight: 600;
+            color: white;
+            letter-spacing: -0.2px;
+        }
+
+        body.widget-mode .chat-header h1 {
+            font-size: 13px !important;
+        }
+
+        .chat-header p {
+            font-size: 11px;
+            color: rgba(255,255,255,0.72);
+            margin-top: 1px;
+        }
+
+        body.widget-mode .chat-header p {
+            font-size: 10px !important;
+        }
+
+        .header-online {
+            width: 8px;
+            height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+            flex-shrink: 0;
+            box-shadow: 0 0 0 2px rgba(74,222,128,0.3);
+        }
+
+        /* Language pills row */
+        .lang-row {
+            margin-top: 9px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        body.widget-mode .lang-row {
+            margin-top: 7px !important;
+        }
+
+        .lang-label {
+            font-size: 11px;
+            color: rgba(255,255,255,0.6);
+            font-weight: 500;
+            margin-right: 2px;
+        }
+
+        .lang-pill {
+            font-size: 11px;
+            padding: 3px 10px;
+            border: 1.5px solid rgba(255,255,255,0.3);
+            border-radius: 20px;
+            color: rgba(255,255,255,0.75);
+            cursor: pointer;
+            background: transparent;
+            font-family: inherit;
+            font-weight: 500;
+            transition: all 0.18s;
+        }
+
+        .lang-pill.active {
+            background: rgba(255,255,255,0.25);
+            color: white;
+            border-color: rgba(255,255,255,0.6);
+        }
+
+        .lang-pill:hover:not(.active) {
+            background: rgba(255,255,255,0.12);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* ── SESSION INFO ── */
+        .session-info {
+            display: none;
+            font-size: 0.75rem;
+            color: #888;
+            text-align: center;
+            padding: 6px;
+            background: #f7fbfd;
+            border-bottom: 1px solid #e0eef5;
+            flex-shrink: 0;
+        }
+
+        /* ── MESSAGES ── */
+        .chat-messages {
+            flex: 1;
+            padding: 14px;
+            overflow-y: auto;
+            background: #f7fbfd;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        body.widget-mode .chat-messages {
+            padding: 10px 12px !important;
+            gap: 10px !important;
+        }
+
+        .message {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            animation: fadeUp 0.22s ease;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(7px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user { flex-direction: row-reverse; }
+
+        .msg-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+            flex-shrink: 0;
+            background: #E6F1FB;
+            color: #1E6A95;
+            border: 1.5px solid #b5d4f0;
+            margin-top: 2px;
+        }
+
+        .message.user .msg-avatar {
+            background: #1E6A95;
+            color: white;
+            border-color: #1E6A95;
+        }
+
+        body.widget-mode .msg-avatar {
+            width: 24px !important;
+            height: 24px !important;
+            font-size: 10px !important;
+        }
+
+        .message-body { max-width: 82%; }
+
+        .message-content {
+            padding: 10px 13px;
+            font-size: 13px;
+            line-height: 1.55;
+            color: #1a2a35;
+        }
+
+        .message.bot .message-content {
+            background: white;
+            border: 1px solid #d8eaf5;
+            border-radius: 4px 16px 16px 16px;
+        }
+
+        .message.user .message-content {
+            background: #1E6A95;
+            color: white;
+            border-radius: 16px 4px 16px 16px;
+        }
+
+        body.widget-mode .message-content {
+            padding: 8px 11px !important;
+            font-size: 12.5px !important;
+            line-height: 1.5 !important;
+        }
+
+        .message-time {
+            font-size: 10px;
+            color: #a0b4c0;
+            margin-top: 4px;
+            padding: 0 3px;
+        }
+
+        .message.user .message-time { text-align: right; }
+
+        /* ── SOURCES ── */
+        .sources-details { margin-top: 8px; }
+
+        .sources-details > summary {
+            cursor: pointer;
+            list-style: none;
+            font-size: 12px;
+            color: #1E6A95;
+            font-weight: 500;
+            outline: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 10px;
+            border: 1px solid #b5d4f0;
+            border-radius: 20px;
+            background: #EBF5FB;
+            transition: all 0.15s;
+        }
+
+        .sources-details > summary:hover {
+            background: #1E6A95;
+            color: white;
+            border-color: #1E6A95;
+        }
+
+        .sources-details > summary::-webkit-details-marker { display: none; }
+
+        .sources-details[open] > summary { margin-bottom: 8px; }
+
+        .sources {
+            padding: 8px 10px;
+            background: #f0f7fc;
+            border-radius: 10px;
+            border-left: 3px solid #1E6A95;
+            font-size: 12px;
+        }
+
+        .source-item {
+            background: white;
+            padding: 6px 8px;
+            margin-bottom: 6px;
+            border-radius: 8px;
+            border: 1px solid #ddeaf3;
+        }
+
+        .source-item:last-child { margin-bottom: 0; }
+
+        .source-title { font-weight: 500; color: #1a2a35; font-size: 12px; }
+
+        .source-snippet { margin-top: 2px; font-size: 11px; color: #5a7a8a; }
+
+        /* ── TYPING INDICATOR ── */
+        .typing-indicator {
+            display: none;
+            padding: 0;
+        }
+
+        .typing-bubble {
+            background: white;
+            border: 1px solid #d8eaf5;
+            border-radius: 4px 16px 16px 16px;
+            padding: 11px 14px;
+            display: inline-flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .typing-dot {
+            width: 7px;
+            height: 7px;
+            background: #a0c4d8;
+            border-radius: 50%;
+            animation: bob 1.2s infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes bob {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-6px); }
+        }
+
+        /* ── INPUT AREA ── */
+        .chat-input-container {
+            padding: 12px 14px;
+            background: white;
+            border-top: 1px solid #ddeaf3;
+            flex-shrink: 0;
+            border-radius: 0 0 22px 22px;
+        }
+
+        body.widget-mode .chat-input-container {
+            padding: 10px 12px !important;
+            border-radius: 0 0 14px 14px !important;
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+        }
+
+        #chatInput {
+            flex: 1;
+            padding: 9px 13px;
+            border: 1.5px solid #d0e4f0;
+            border-radius: 16px;
+            outline: none;
+            font-size: 13px;
+            resize: none;
+            min-height: 38px;
+            max-height: 80px;
+            font-family: inherit;
+            background: #f7fbfd;
+            color: #1a2a35;
+            transition: border-color 0.18s, background 0.18s;
+            line-height: 1.4;
+        }
+
+        #chatInput:focus {
+            border-color: #1E6A95;
+            background: white;
+        }
+
+        #chatInput::placeholder { color: #b0c8d8; }
+
+        body.widget-mode #chatInput {
+            font-size: 12.5px !important;
+            min-height: 34px !important;
+            padding: 8px 11px !important;
+        }
+
+        #sendButton {
+            background: #1E6A95;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.18s;
+        }
+
+        #sendButton:hover {
+            background: #228BA0;
+            transform: scale(1.08);
+        }
+
+        #sendButton:active { transform: scale(0.92); }
+
+        #sendButton:disabled {
+            background: #c8dce8;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        body.widget-mode #sendButton {
+            width: 34px !important;
+            height: 34px !important;
+        }
+
+        /* ── FEEDBACK ── */
+        .feedback-buttons {
+            margin-top: 8px;
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .feedback-btn {
+            background: white;
+            border: 1.5px solid #d0e4f0;
+            padding: 4px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            font-family: inherit;
+            color: #4a7a95;
+            font-weight: 500;
+            transition: all 0.18s;
+        }
+
+        .feedback-btn:active { transform: scale(0.92); }
+
+        .feedback-btn.thumbs-up:hover {
+            border-color: #22c55e;
+            background: #f0fdf4;
+            color: #16a34a;
+            transform: translateY(-2px);
+        }
+
+        .feedback-btn.thumbs-down:hover {
+            border-color: #f87171;
+            background: #fef2f2;
+            color: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        .feedback-form {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 8px;
+            width: 100%;
+        }
+
+        .feedback-textarea {
+            width: 100%;
+            min-height: 55px;
+            font-size: 12px;
+            padding: 6px 9px;
+            border-radius: 10px;
+            border: 1.5px solid #d0e4f0;
+            resize: vertical;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .feedback-textarea:focus { border-color: #1E6A95; }
+        .feedback-textarea-error { border-color: #ef4444; }
+
+        .feedback-submit-btn {
+            align-self: flex-start;
+            padding: 5px 14px;
+            font-size: 12px;
+            border-radius: 20px;
+            border: none;
+            background: #ef4444;
+            color: white;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 500;
+            transition: all 0.18s;
+        }
+
+        .feedback-submit-btn:hover { background: #dc2626; transform: translateY(-1px); }
+        .feedback-submit-btn:active { transform: scale(0.94); }
+
+        .feedback-thanks {
+            font-size: 12px;
+            color: #16a34a;
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        .feedback-thanks.feedback-error { color: #b91c1c; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 400px) {
+            body.widget-mode .chat-container { border-radius: 0 !important; }
+        }
+
+        @media (max-height: 550px) {
+            body.widget-mode { height: 100% !important; min-height: 100% !important; }
+            body.widget-mode .chat-container { height: 100% !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header" style="position:relative;">
+            <div class="header-top">
+                <div class="header-logo">B</div>
+                <div class="header-text">
+                    <h1>BINU Assistant</h1>
+                    <p>AI-powered ERP documentation helper</p>
+                </div>
+                <div class="header-online" title="Online"></div>
+            </div>
+            <div class="lang-row" id="langRow">
+                <span class="lang-label">Lang:</span>
+            </div>
+        </div>
+
+        <div class="session-info" id="sessionInfo">
+            Session: <span id="sessionId">Loading...</span>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot" id="welcomeMessage">
+                <div class="msg-avatar">B</div>
+                <div class="message-body">
+                    <div class="message-content">
+                        <div id="welcomeText">
+                            <p>Hi! I'm BINU AI Assistant — your intelligent guide to the BINU ERP system. I can help you with:</p>
+                            <p>• Business processes and workflows</p>
+                            <p>• Step-by-step instructions</p>
+                            <p>• Module navigation</p>
+                            <p>What would you like to know?</p>
+                        </div>
+                        <div class="message-time" id="welcomeTime"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="typing-indicator" id="typingIndicator">
+            <div class="message bot">
+                <div class="msg-avatar">B</div>
+                <div class="message-body">
+                    <div class="typing-bubble">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-input-container">
+            <div class="chat-input-wrapper">
+                <textarea id="chatInput" placeholder="Ask me about the ERP system..." rows="1"></textarea>
+                <button id="sendButton" disabled>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const LANG_OPTIONS = [
+            { code: 'en', value: 'English',   label: 'EN' },
+            { code: 'bg', value: 'Bulgarian', label: 'BG' },
+            { code: 'hr', value: 'Croatian',  label: 'HR' },
+            { code: 'fr', value: 'French',    label: 'FR' },
+            { code: 'de', value: 'German',    label: 'DE' },
+            { code: 'hu', value: 'Hungarian', label: 'HU' },
+            { code: 'it', value: 'Italian',   label: 'IT' },
+            { code: 'ro', value: 'Romanian',  label: 'RO' },
+            { code: 'ru', value: 'Russian',   label: 'RU' },
+            { code: 'sr', value: 'Serbian',   label: 'SR' },
+            { code: 'sl', value: 'Slovenian', label: 'SL' },
+            { code: 'es', value: 'Spanish',   label: 'ES' },
+            { code: 'tr', value: 'Turkish',   label: 'TR' },
+            { code: 'uk', value: 'Ukrainian', label: 'UK' },
+        ];
+
+        class ERPChatbot {
+            constructor() {
+                this.sessionId = null;
+                this.apiBase = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost'
+                    ? 'http://127.0.0.1:8080/api'
+                    : window.location.origin + '/api';
+
+                this.isWidgetMode = window.self !== window.top;
+
+                if (this.isWidgetMode) {
+                    document.body.classList.add('widget-mode');
+                    document.documentElement.style.height = '500px';
+                    document.documentElement.style.width = '380px';
+                    document.documentElement.style.overflow = 'hidden';
+                    document.body.style.height = '500px';
+                    document.body.style.width = '380px';
+                    document.body.style.overflow = 'hidden';
+                    document.body.style.margin = '0';
+                    document.body.style.padding = '0';
+                }
+
+                this.buildLangPills();
+                this.initializeApp().catch(e => console.log('Init failed:', e));
+                this.setupEventListeners();
+            }
+
+            buildLangPills() {
+                const row = document.getElementById('langRow');
+                const popular = ['English', 'Slovenian', 'Serbian', 'German', 'Russian', 'Ukrainian'];
+    
+                LANG_OPTIONS.forEach(opt => {
+                    const btn = document.createElement('button');
+                    btn.className = 'lang-pill' + (popular.includes(opt.value) ? '' : ' lang-pill-hidden');
+                    btn.textContent = opt.label;
+                    btn.dataset.value = opt.value;
+                    btn.addEventListener('click', () => {
+                        this.language = opt.value;
+                        localStorage.setItem('erp_chatbot_language', opt.value);
+                        document.querySelectorAll('.lang-pill').forEach(p => p.classList.remove('active'));
+                        btn.classList.add('active');
+                        this.translateWelcome(opt.value);
+                        window.location.reload();
+                    });
+                    row.appendChild(btn);
+                });
+
+                // More button
+                const moreBtn = document.createElement('button');
+                moreBtn.className = 'lang-pill lang-more-btn';
+                moreBtn.textContent = '+ more';
+                moreBtn.addEventListener('click', () => {
+                    const hidden = row.querySelectorAll('.lang-pill-hidden');
+                    if (hidden.length > 0) {
+                        hidden.forEach(p => p.classList.remove('lang-pill-hidden'));
+                        moreBtn.style.display = 'none';
+                    }
+                });
+                row.appendChild(moreBtn);
+            }
+
+            detectLanguage() {
+                const langMap = {
+                    'sr':'Serbian','hr':'Croatian','sl':'Slovenian','ru':'Russian',
+                    'uk':'Ukrainian','de':'German','fr':'French','it':'Italian',
+                    'es':'Spanish','tr':'Turkish','ro':'Romanian','bg':'Bulgarian',
+                    'hu':'Hungarian','en':'English',
+                };
+                const googtrans = document.cookie.split(';').map(c=>c.trim()).find(c=>c.startsWith('googtrans='));
+                if (googtrans) {
+                    const code = googtrans.split('/').pop();
+                    if (langMap[code]) return langMap[code];
+                }
+                return localStorage.getItem('erp_chatbot_language') || 'English';
+            }
+
+            async translateWelcome(language) {
+                const welcomeTexts = {
+                    'English':   'Hi! I\'m BINU AI Assistant — your intelligent guide to the BINU ERP system. I can help you with:<br>• Business processes and workflows<br>• Step-by-step instructions<br>• Module navigation<br>What would you like to know?',
+                    'Russian':   'Привет! Я BINU AI Assistant — ваш интеллектуальный помощник по системе BINU ERP. Я могу помочь вам с:<br>• Бизнес-процессами и рабочими процессами<br>• Пошаговыми инструкциями<br>• Навигацией по модулям<br>Что вы хотели бы узнать?',
+                    'Croatian':  'Zdravo! Ja sam BINU AI Assistant — vaš inteligentni vodič kroz BINU ERP sustav. Mogu vam pomoći s:<br>• Poslovnim procesima i radnim tokovima<br>• Uputama korak po korak<br>• Navigacijom po modulima<br>Što biste željeli znati?',
+                    'Serbian':   'Zdravo! Ja sam BINU AI Assistant — vaš inteligentni vodič kroz BINU ERP sistem. Mogu vam pomoći sa:<br>• Poslovnim procesima i radnim tokovima<br>• Uputstvima korak po korak<br>• Navigacijom kroz module<br>Šta biste željeli da znate?',
+                    'Slovenian': 'Pozdravljeni! Sem BINU AI Assistant — vaš inteligentni vodnik po sistemu BINU ERP. Lahko vam pomagam z:<br>• Poslovnimi procesi in delovnimi tokovi<br>• Navodili po korakih<br>• Navigacijo po modulih<br>Kaj bi radi izvedeli?',
+                    'German':    'Hallo! Ich bin BINU AI Assistant — Ihr intelligenter Leitfaden für das BINU ERP-System. Ich kann Ihnen helfen mit:<br>• Geschäftsprozessen und Arbeitsabläufen<br>• Schritt-für-Schritt-Anleitungen<br>• Modulnavigation<br>Was möchten Sie wissen?',
+                    'French':    'Bonjour! Je suis BINU AI Assistant — votre guide intelligent pour le système BINU ERP. Je peux vous aider avec:<br>• Les processus métier et les flux de travail<br>• Des instructions étape par étape<br>• La navigation dans les modules<br>Que souhaitez-vous savoir?',
+                    'Italian':   'Ciao! Sono BINU AI Assistant — la tua guida intelligente al sistema BINU ERP. Posso aiutarti con:<br>• Processi aziendali e flussi di lavoro<br>• Istruzioni passo dopo passo<br>• Navigazione dei moduli<br>Cosa vorresti sapere?',
+                    'Spanish':   '¡Hola! Soy BINU AI Assistant — tu guía inteligente para el sistema BINU ERP. Puedo ayudarte con:<br>• Procesos empresariales y flujos de trabajo<br>• Instrucciones paso a paso<br>• Navegación por módulos<br>¿Qué te gustaría saber?',
+                    'Turkish':   'Merhaba! Ben BINU AI Assistant — BINU ERP sistemi için akıllı rehberiniz. Size şu konularda yardımcı olabilirim:<br>• İş süreçleri ve iş akışları<br>• Adım adım talimatlar<br>• Modül navigasyonu<br>Ne öğrenmek istersiniz?',
+                    'Romanian':  'Bună! Sunt BINU AI Assistant — ghidul dvs. inteligent pentru sistemul BINU ERP. Vă pot ajuta cu:<br>• Procese de afaceri și fluxuri de lucru<br>• Instrucțiuni pas cu pas<br>• Navigarea modulelor<br>Ce doriți să aflați?',
+                    'Bulgarian': 'Здравейте! Аз съм BINU AI Assistant — вашият интелигентен наръчник за BINU ERP системата. Мога да ви помогна с:<br>• Бизнес процеси и работни потоци<br>• Инструкции стъпка по стъпка<br>• Навигация в модулите<br>Какво бихте искали да знаете?',
+                    'Hungarian': 'Szia! Én vagyok a BINU AI Assistant — intelligens útmutatód a BINU ERP rendszerhez. Segíthetek neked:<br>• Üzleti folyamatok és munkafolyamatok<br>• Lépésről lépésre szóló utasítások<br>• Modulok navigációja<br>Mit szeretnél megtudni?',
+                    'Ukrainian': 'Привіт! Я BINU AI Assistant — ваш інтелектуальний помічник з системи BINU ERP. Я можу допомогти вам з:<br>• Бізнес-процесами та робочими процесами<br>• Покроковими інструкціями<br>• Навігацією по модулях<br>Що ви хотіли б дізнатися?',
+                };
+
+                const text = welcomeTexts[language] || welcomeTexts['English'];
+                const el = document.getElementById('welcomeText');
+                if (el) el.innerHTML = text;
+            }
+
+            setActiveLangPill(language) {
+                document.querySelectorAll('.lang-pill').forEach(p => {
+                    p.classList.toggle('active', p.dataset.value === language);
+                });
+            }
+
+            async initializeApp() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const urlSessionId = urlParams.get('session_id');
+
+                if (urlSessionId) {
+                    this.sessionId = urlSessionId;
+                } else {
+                    const stored = localStorage.getItem('erp_session_id');
+                    this.sessionId = stored || ('session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9));
+                    localStorage.setItem('erp_session_id', this.sessionId);
+                }
+
+                const displayId = this.isWidgetMode ? this.sessionId.substring(0, 12) + '...' : this.sessionId;
+                document.getElementById('sessionId').textContent = displayId;
+                document.getElementById('welcomeTime').textContent = this.getCurrentTime();
+
+                await this.loadHistory();
+
+                this.language = this.detectLanguage();
+                this.setActiveLangPill(this.language);
+                if (this.language !== 'English') {
+                    this.translateWelcome(this.language);
+}
+            }
+
+            async loadHistory() {
+                try {
+                    const response = await fetch(`${this.apiBase}/conversation/${this.sessionId}`);
+                    if (!response.ok) return;
+                    const data = await response.json();
+                    const history = data.history || [];
+                    if (history.length === 0) return;
+
+                    const welcome = document.getElementById('welcomeMessage');
+                    if (welcome) welcome.style.display = 'none';
+
+                    history.forEach(item => {
+                        this.addMessage(item.question, 'user');
+                        this.addMessage(item.answer, 'bot', [], null);
+                    });
+                } catch (e) {
+                    console.log('History load failed:', e);
+                }
+            }
+
+            setupEventListeners() {
+                const chatInput = document.getElementById('chatInput');
+                const sendButton = document.getElementById('sendButton');
+
+                chatInput.addEventListener('input', () => {
+                    sendButton.disabled = !chatInput.value.trim();
+                    this.autoResizeTextarea(chatInput);
+                });
+
+                sendButton.addEventListener('click', () => this.sendMessage());
+
+                chatInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
+                });
+
+                if (!this.isWidgetMode) chatInput.focus();
+            }
+
+            autoResizeTextarea(textarea) {
+                textarea.style.height = 'auto';
+                const maxH = this.isWidgetMode ? 80 : 120;
+                textarea.style.height = Math.min(textarea.scrollHeight, maxH) + 'px';
+            }
+
+            async sendMessage() {
+                const chatInput = document.getElementById('chatInput');
+                const message = chatInput.value.trim();
+                if (!message) return;
+
+                chatInput.value = '';
+                chatInput.style.height = 'auto';
+                document.getElementById('sendButton').disabled = true;
+
+                this.addMessage(message, 'user');
+                this.showTypingIndicator();
+
+                try {
+                    const response = await this.callChatAPI(message);
+                    this.addMessage(response.response, 'bot', response.sources, response.log_id);
+                } catch (error) {
+                    this.addMessage('Sorry, I encountered an error. Please try again.', 'bot', [], null);
+                    console.error('Chat error:', error);
+                } finally {
+                    this.hideTypingIndicator();
+                    this.scrollToBottom();
+                }
+            }
+
+            async callChatAPI(message) {
+                const response = await fetch(`${this.apiBase}/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: message,
+                        session_id: this.sessionId,
+                        user_id: 'web_user',
+                        language: this.language,
+                    }),
+                });
+
+                if (!response.ok) throw new Error(`API error: ${response.status}`);
+
+                const data = await response.json();
+
+                if (data.session_cleared) {
+                    const chatMessages = document.getElementById('chatMessages');
+                    if (chatMessages) {
+                        const welcome = document.getElementById('welcomeMessage');
+                        chatMessages.innerHTML = '';
+                        if (welcome) chatMessages.appendChild(welcome);
+                    }
+                }
+
+                if (data.session_id && data.session_id !== this.sessionId) {
+                    this.sessionId = data.session_id;
+                    localStorage.setItem('erp_session_id', this.sessionId);
+                    const displayId = this.isWidgetMode ? this.sessionId.substring(0, 12) + '...' : this.sessionId;
+                    document.getElementById('sessionId').textContent = displayId;
+                }
+
+                return data;
+            }
+
+            addMessage(content, sender, sources = [], logId = null) {
+                const chatMessages = document.getElementById('chatMessages');
+
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}`;
+
+                const avatarDiv = document.createElement('div');
+                avatarDiv.className = 'msg-avatar';
+                avatarDiv.textContent = sender === 'bot' ? 'B' : 'U';
+
+                const bodyDiv = document.createElement('div');
+                bodyDiv.className = 'message-body';
+
+                const messageContent = document.createElement('div');
+                messageContent.className = 'message-content';
+
+                const messageText = document.createElement('div');
+                messageText.innerHTML = this.formatMessage(content);
+                messageContent.appendChild(messageText);
+
+                if (sources && sources.length > 0) {
+                    const details = document.createElement('details');
+                    details.className = 'sources-details';
+
+                    const summary = document.createElement('summary');
+                    summary.innerHTML = `📎 Sources (${sources.length})`;
+                    details.appendChild(summary);
+
+                    const sourcesDiv = document.createElement('div');
+                    sourcesDiv.className = 'sources';
+
+                    sources.forEach((source) => {
+                        const sourceItem = document.createElement('div');
+                        sourceItem.className = 'source-item';
+                        let sourceHtml = '';
+
+                        if (source.title) {
+                            const sourceLink = source.link
+                                ? `<a href="https://chat.rwave.eu/api/document?path=${encodeURIComponent(source.link)}" target="_blank" style="color:#1E6A95;text-decoration:underline;">${source.title}</a>`
+                                : source.title;
+                            sourceHtml += `<div class="source-title">${sourceLink}</div>`;
+                        }
+
+                        if (source.snippets && source.snippets.length > 0) {
+                            source.snippets.forEach((snippet) => {
+                                if (snippet && snippet.trim()) {
+                                    const maxLength = this.isWidgetMode ? 150 : 200;
+                                    const short = snippet.length > maxLength ? snippet.substring(0, maxLength) + '...' : snippet;
+                                    sourceHtml += `<div class="source-snippet">${short}</div>`;
+                                }
+                            });
+                        }
+
+                        sourceItem.innerHTML = sourceHtml;
+                        sourcesDiv.appendChild(sourceItem);
+                    });
+
+                    details.appendChild(sourcesDiv);
+                    messageContent.appendChild(details);
+                }
+
+                const timeDiv = document.createElement('div');
+                timeDiv.className = 'message-time';
+                timeDiv.textContent = this.getCurrentTime();
+                messageContent.appendChild(timeDiv);
+
+                if (sender === 'bot' && logId) {
+                    const feedbackDiv = document.createElement('div');
+                    feedbackDiv.className = 'feedback-buttons';
+                    feedbackDiv.innerHTML = `
+                        <button class="feedback-btn thumbs-up" onclick="chatbot.handleFeedbackClick(${logId}, 'thumbs_up', this)">👍 Helpful</button>
+                        <button class="feedback-btn thumbs-down" onclick="chatbot.handleFeedbackClick(${logId}, 'thumbs_down', this)">👎 Not helpful</button>
+                    `;
+                    messageContent.appendChild(feedbackDiv);
+                }
+
+                bodyDiv.appendChild(messageContent);
+                messageDiv.appendChild(avatarDiv);
+                messageDiv.appendChild(bodyDiv);
+                chatMessages.appendChild(messageDiv);
+                this.scrollToBottom();
+            }
+
+            formatMessage(text) {
+                return text
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .replace(/\n/g, '<br>')
+                    .replace(/- (.*?)(?=\n|$)/g, '• $1<br>');
+            }
+
+            showTypingIndicator() {
+                document.getElementById('typingIndicator').style.display = 'block';
+                this.scrollToBottom();
+            }
+
+            hideTypingIndicator() {
+                document.getElementById('typingIndicator').style.display = 'none';
+            }
+
+            scrollToBottom() {
+                const chatMessages = document.getElementById('chatMessages');
+                const messages = chatMessages.querySelectorAll('.message');
+                if (messages.length > 0) {
+                    const last = messages[messages.length - 1];
+                    if (this.isWidgetMode) {
+                        chatMessages.scrollTop = last.offsetTop - chatMessages.offsetTop;
+                    } else {
+                        last.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            }
+
+            getCurrentTime() {
+                return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            }
+
+            handleFeedbackClick(logId, rating, buttonEl) {
+                const container = buttonEl.closest('.feedback-buttons');
+                if (rating === 'thumbs_up') {
+                    this.sendFeedback(logId, rating, null, container);
+                    return;
+                }
+                if (!container.querySelector('.feedback-form')) {
+                    const form = document.createElement('div');
+                    form.className = 'feedback-form';
+                    form.innerHTML = `
+                        <textarea class="feedback-textarea" placeholder="What was wrong with this answer?"></textarea>
+                        <button class="feedback-submit-btn" onclick="chatbot.submitNegativeFeedback(${logId}, this)">Send feedback</button>
+                    `;
+                    container.appendChild(form);
+                }
+            }
+
+            submitNegativeFeedback(logId, btnEl) {
+                const container = btnEl.closest('.feedback-buttons');
+                const textarea = container.querySelector('.feedback-textarea');
+                const comment = textarea.value.trim();
+                if (!comment) { textarea.classList.add('feedback-textarea-error'); return; }
+                this.sendFeedback(logId, 'thumbs_down', comment, container);
+            }
+
+            async sendFeedback(logId, rating, comment, container) {
+                try {
+                    await fetch(`${this.apiBase}/feedback`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ log_id: logId, rating, comment: comment || null, improvement_suggestion: null }),
+                    });
+                    container.innerHTML = '<div class="feedback-thanks">Thank you for your feedback!</div>';
+                } catch {
+                    container.innerHTML = '<div class="feedback-thanks feedback-error">Could not send feedback. Please try again.</div>';
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.chatbot = new ERPChatbot();
+        });
+    </script>
+</body>
+</html>
