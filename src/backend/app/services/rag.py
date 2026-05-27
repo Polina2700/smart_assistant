@@ -90,7 +90,7 @@ def load_documents() -> List[Dict]:
     return docs
 
 
-def chunk_text(text: str, doc_id: str, chunk_size: int = 80, overlap: int = 10) -> List[Dict]:
+def chunk_text(text: str, doc_id: str, chunk_size: int = 200, overlap: int = 40) -> List[Dict]:
     """Split document into overlapping chunks."""
     words = text.split()
     chunks = []
