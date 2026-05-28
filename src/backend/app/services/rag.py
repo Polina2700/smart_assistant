@@ -55,20 +55,21 @@ def load_documents() -> List[Dict]:
                 csv_lines = text.strip().split("\n")
                 if len(csv_lines) > 1:
                     headers = csv_lines[0]
+                    data_lines = [l for l in csv_lines[1:] if l.strip()]
                     chunks = []
+                    ROWS_PER_CHUNK = 20
                     idx = 0
-                    for line in csv_lines[1:]:
-                        if line.strip() and not line.startswith("Project,Client"):
-                            chunk_text_content = f"{headers}\n{line}"
-                            chunks.append({
-                                "chunk_id": f"{path.stem}_c{idx}",
-                                "doc_id": path.stem,
-                                "text": chunk_text_content,
-                                "start_word": idx,
-                                "filename": path.name,
-                                "type": doc_type,
-                            })
-                            idx += 1
+                    for i in range(0, len(data_lines), ROWS_PER_CHUNK):
+                        batch = data_lines[i:i + ROWS_PER_CHUNK]
+                        chunks.append({
+                            "chunk_id": f"{path.stem}_c{idx}",
+                            "doc_id": path.stem,
+                            "text": "\n".join([headers] + batch),
+                            "start_word": i,
+                            "filename": path.name,
+                            "type": doc_type,
+                        })
+                        idx += 1
                 else:
                     chunks = chunk_text(text, path.stem)
                     for chunk in chunks:
@@ -121,8 +122,10 @@ def chunk_text(text: str, doc_id: str, chunk_size: int = 200, overlap: int = 40)
 # ─────────────────────────────────────────────
 
 def tokenize(text: str) -> List[str]:
-    """Simple tokenizer: lowercase, alphanumeric only."""
-    return re.findall(r"[a-z0-9]+", text.lower())
+    """Enhanced tokenizer: lowercase, alphanumeric only, supporting Unicode/multilingual characters."""
+    if not text:
+        return []
+    return re.findall(r"\w+", text.lower())
 
 
 def build_tfidf_index(docs: List[Dict]) -> Tuple[List[Dict], Dict]:
@@ -313,8 +316,12 @@ class RAGService:
         self._ready = True
         logger.info("RAG service ready")
 
+    # Bump this string whenever parsing/chunking logic changes to force a cache rebuild.
+    INDEX_VERSION = "v2-multirow-csv"
+
     def _get_docs_hash(self) -> str:
         h = hashlib.md5()
+        h.update(self.INDEX_VERSION.encode())
         for path in sorted(DOCS_DIR.rglob("*")):
             if path.suffix in (".md", ".txt", ".csv"):
                 h.update(path.name.encode())
@@ -373,18 +380,18 @@ class RAGService:
             logger.warning("RAG service not initialized")
             return []
 
-        # TF-IDF search
-        tfidf_results = tfidf_search(query, self.all_chunks, self.idf, top_k=15)
+        # TF-IDF search with enhanced depth pipeline candidate pool limits
+        tfidf_results = tfidf_search(query, self.all_chunks, self.idf, top_k=25)
 
-        # Embedding search
-        embed_results = self.embedding_index.search(query, top_k=15)
+        # Embedding search matching identical deep context candidate pool bounds
+        embed_results = self.embedding_index.search(query, top_k=25)
 
         # Fuse results
         if embed_results:
-            # Both available — true hybrid
+            # True hybrid balancing
             fused = reciprocal_rank_fusion(
                 tfidf_results, embed_results,
-                tfidf_weight=0.4, embed_weight=0.6,
+                tfidf_weight=0.5, embed_weight=0.5,
                 top_k=top_k
             )
         else:

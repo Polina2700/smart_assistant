@@ -162,7 +162,7 @@ RULES:
         if len(self._history[session_id]) > 20:
             self._history[session_id] = self._history[session_id][-20:]
 
-    def _extract_sources(self, chunks: List[Dict], max_sources: int = 3) -> List[Dict]:
+    def _extract_sources(self, chunks: List[Dict], max_sources: int = 5) -> List[Dict]:
         seen = set()
         sources = []
         for i, chunk in enumerate(chunks, 1):
