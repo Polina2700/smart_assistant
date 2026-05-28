@@ -24,7 +24,7 @@ pip install -r requirements.txt
 
 # 4. Configure environment
 cp .env.example .env
-# Edit .env and add your GEMINI_API_KEY
+# Edit .env and add your GROQ_API_KEY
 
 # 5. Run
 python run.py
@@ -52,7 +52,7 @@ User Question
 
 ### Why hybrid search?
 
-TF-IDF alone misses semantic matches ("PM" ≠ "project manager"). Embeddings alone struggle with rare proper nouns (client names, project codes). RRF combines both — TF-IDF weight 0.4, embeddings weight 0.6.
+TF-IDF alone misses semantic matches ("PM" ≠ "project manager"). Embeddings alone struggle with rare proper nouns (client names, project codes). RRF combines both — TF-IDF weight 0.5, embeddings weight 0.5 (equal weights).
 
 ### Why Groq instead of Gemini/OpenAI?
 
@@ -78,12 +78,11 @@ smart_assistant/
 │   │   │       └── generator.py  # Groq generation, conversation history
 │   │   ├── run.py
 │   │   ├── requirements.txt
-│   │   └── .env                  # GEMINI_API_KEY (not in git)
+│   │   └── .env                  # GROQ_API_KEY (not in git)
 │   ├── eval/
-│   │   └── eval.py               # 15-question LLM-as-judge evaluation
+│   │   └── eval.py               # 8-question LLM-as-judge evaluation
 │   └── frontend/
 │       └── index.html            # Chat UI
-├── eval/                         # JSON evaluation results
 ├── README.md
 └── REPORT.md
 ```
@@ -92,7 +91,7 @@ smart_assistant/
 
 ## Document Corpus
 
-31 synthetic documents for NovaTech Consulting — an ERP implementation company based in Ljubljana with 15 consultants and ~10 completed projects.
+31 synthetic documents for NovaTech Consulting — an ERP implementation company based in Ljubljana with 10 consultants and ~10 completed projects.
 
 **Intentional noise and complexity:**
 - Contradictory data: BioMed budget (€142k in meeting notes vs €145k in status report)
@@ -110,14 +109,14 @@ smart_assistant/
 
 ## Evaluation
 
-15 questions covering 4 categories:
+8 questions covering 4 categories (2 per category):
 
 | Category | Questions | Tests |
 |---|---|---|
-| Simple | 5 | Direct fact retrieval |
-| Multi-hop | 3 | Combining info from multiple docs |
-| Unanswerable | 4 | Hallucination resistance |
-| Trick/Contradictory | 3 | Conflict detection |
+| Simple | 2 | Direct fact retrieval |
+| Multi-hop | 2 | Combining info from multiple docs |
+| Unanswerable | 2 | Hallucination resistance |
+| Trick/Contradictory | 2 | Conflict detection |
 
 LLM-as-judge scoring (0-3 per criterion, max 12 per question):
 - **Correctness** — factual accuracy
@@ -129,12 +128,9 @@ LLM-as-judge scoring (0-3 per criterion, max 12 per question):
 # Run full evaluation (requires server running)
 cd src/backend
 python ../eval/eval.py
-
-# Quick test (5 questions only)
-python ../eval/eval.py --quick
 ```
 
-Results saved to `eval/eval_YYYYMMDD_HHMMSS.json`.
+Results saved to `src/eval/eval_YYYYMMDD_HHMMSS.json`.
 
 ---
 
@@ -181,7 +177,7 @@ Results saved to `eval/eval_YYYYMMDD_HHMMSS.json`.
 Create `src/backend/.env`:
 
 ```env
-GEMINI_API_KEY=your_gemini_api_key_here
+GROQ_API_KEY=your_groq_api_key_here
 API_BASE=http://127.0.0.1:8000/api
 ALLOWED_ORIGINS=http://localhost:8000,http://127.0.0.1:8000
 ```
@@ -193,21 +189,21 @@ Get a free Groq API key at https://console.groq.com
 ## Features
 
 - **Hybrid search** — TF-IDF + sentence embeddings + RRF fusion
-- **CSV row-level chunking** — each CSV row indexed separately with headers for accurate tabular data retrieval
+- **CSV batch chunking** — rows indexed in batches of up to 20 with the header prepended, enabling aggregate queries (counts, totals) over full tables
+- **Index caching** — TF-IDF index, IDF weights, and embeddings persisted to disk; rebuilt automatically when documents change
 - **Contradiction detection** — LLM instructed to scan all retrieved documents for conflicting information
 - **Outdated document handling** — LLM prefers newer source when document marked as outdated
 - **Conversation history** — last 10 exchanges per session kept in memory
 - **Multilingual** — responds in 14 languages (EN, SL, HR, SR, RU, DE, FR, IT, ES, TR, RO, BG, HU, UK)
 - **Source citations** — `[N]` inline citations matched to Sources panel
 - **User feedback** — thumbs up/down with optional comment, stored in SQLite
-- **LLM-as-judge evaluation** — automated quality scoring on 15 test questions
+- **LLM-as-judge evaluation** — automated quality scoring on 8 test questions
 
 ---
 
 ## Known Limitations
 
 - **Multi-hop reasoning is inconsistent** — answers combining 3+ documents sometimes miss one source
-- **No persistence of embeddings** — model reloads and re-encodes all chunks on every server restart (~10s startup time)
 - **In-memory conversation history** — lost on server restart
 
 ---

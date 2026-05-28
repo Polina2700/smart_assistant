@@ -1,0 +1,224 @@
+{
+  "timestamp": "2026-05-28T12:41:31.950179",
+  "total_questions": 8,
+  "total_score": 76,
+  "max_possible": 96,
+  "overall_pct": 79.2,
+  "judge_model": "llama-3.3-70b-versatile",
+  "by_category": {
+    "simple": {
+      "questions": 2,
+      "avg_score": 6.5,
+      "avg_pct": 54.2
+    },
+    "multi_hop": {
+      "questions": 2,
+      "avg_score": 9.0,
+      "avg_pct": 75.0
+    },
+    "unanswerable": {
+      "questions": 2,
+      "avg_score": 10.5,
+      "avg_pct": 87.5
+    },
+    "trick_contradictory": {
+      "questions": 2,
+      "avg_score": 12.0,
+      "avg_pct": 100.0
+    }
+  },
+  "results": [
+    {
+      "id": "S01",
+      "category": "simple",
+      "question": "Who was the project manager for FoodDist?",
+      "expected": "Sarah Chen",
+      "actual_answer": "I don't have information in the NovaTech knowledge base to answer this.",
+      "sources": [
+        "mn_011_balkanssteel_postmortem.md",
+        "mn_004_internal_lessons_q2.md",
+        "mn_007_autoparts_closure.md",
+        "mn_006_greenenergy_kickoff.md",
+        "pp_003_biomed_sap.md"
+      ],
+      "confidence": "none",
+      "latency_seconds": 0.56,
+      "scores": {
+        "correctness": 0,
+        "hallucination": 3,
+        "source_citation": 0,
+        "uncertainty": 3,
+        "total": 6,
+        "explanation": "The AI assistant correctly refused to provide an answer when it didn't have the information, avoiding hallucinations and handling uncertainty properly. However, it lacked correctness since it didn't provide the expected answer, and it also didn't provide any source citation."
+      }
+    },
+    {
+      "id": "S03",
+      "category": "simple",
+      "question": "Which NovaTech consultant is certified for SAP S/4HANA Public Cloud?",
+      "expected": "Anna Wolff — the only consultant with public cloud certification",
+      "actual_answer": "Anna Wolff is the only NovaTech consultant with SAP S/4HANA Public Cloud experience [1], [4], [5], [7].",
+      "sources": [
+        "pp_004_greenenergy.md",
+        "tr_001_sap_cloud_framework.md",
+        "mn_006_greenenergy_kickoff.md",
+        "tbl_005_technology_matrix.csv",
+        "pp_001_adriatic_petrochemical.md"
+      ],
+      "confidence": "high",
+      "latency_seconds": 0.4,
+      "scores": {
+        "correctness": 2,
+        "hallucination": 2,
+        "source_citation": 3,
+        "uncertainty": 0,
+        "total": 7,
+        "explanation": "The answer is mostly correct but does not explicitly state that Anna Wolff is certified, instead mentioning experience. The response properly cites sources, but the distinction between experience and certification is not clearly addressed, and it does not handle uncertainty or potential contradictions in the information provided."
+      }
+    },
+    {
+      "id": "M01",
+      "category": "multi_hop",
+      "question": "Which NovaTech projects involved cloud migration and what were the key lessons learned?",
+      "expected": "MediaGroup (NAV to BC): custom reports underestimated, 70-80% need redesign. RetailPro: cancelled. GreenEnergy: SAP Public Cloud in progress. Key lesson: audit customizations before quoting.",
+      "actual_answer": "NovaTech has experience with cloud migrations, including SAP S/4HANA Public Cloud [1], [6] and Microsoft Dynamics 365 Business Central [4], [5]. Key lessons learned include: customizations in NAV rarely migrate cleanly to BC [2], always audit customizations before quoting migration effort [2], and verify exact SAP version in discovery [6]. Additionally, a lesson learned from the BioMed project was to always verify the exact SAP version in discovery [6].",
+      "sources": [
+        "mn_006_greenenergy_kickoff.md",
+        "mn_004_internal_lessons_q2.md",
+        "tr_002_data_migration.md",
+        "pp_002_retailpro_dynamics.md",
+        "mn_003_retailpro_cloud.md"
+      ],
+      "confidence": "high",
+      "latency_seconds": 0.7,
+      "scores": {
+        "correctness": 2,
+        "hallucination": 2,
+        "source_citation": 3,
+        "uncertainty": 2,
+        "total": 9,
+        "explanation": "The answer provides some correct information about NovaTech's experience with cloud migrations and key lessons learned, but it does not directly address the question about specific projects. The answer includes proper source citations, but it also introduces some unrelated information and does not fully handle the uncertainty of the question."
+      }
+    },
+    {
+      "id": "M02",
+      "category": "multi_hop",
+      "question": "Who from the NovaTech team worked on pharmaceutical or medical clients?",
+      "expected": "Tomasz Kowalski (PharmaCro — SAP ECC MM/QM), Mark Horvat (BioMed — SAP ECC FI/CO/MM/QM), Anna Wolff (PharmaCro remote FI support)",
+      "actual_answer": "Mark Horvat and Tomasz Kowalski worked on PharmaCro [6], and Mark Horvat also worked on BioMed Solutions [1], [4], and [8]. Additionally, Anna Wolff is mentioned as having experience with public cloud and is assigned to a project, but not specifically a pharmaceutical or medical client in the provided documents, however, she is part of the team for GreenEnergy [7] and has experience that could be relevant.",
+      "sources": [
+        "mn_004_internal_lessons_q2.md",
+        "mn_006_greenenergy_kickoff.md",
+        "mn_007_autoparts_closure.md",
+        "pp_003_biomed_sap.md",
+        "tr_010_qa_framework.md"
+      ],
+      "confidence": "high",
+      "latency_seconds": 0.88,
+      "scores": {
+        "correctness": 2,
+        "hallucination": 2,
+        "source_citation": 3,
+        "uncertainty": 2,
+        "total": 9,
+        "explanation": "The answer is partially correct as it identifies Mark Horvat and Tomasz Kowalski as working on pharmaceutical or medical clients, but it also introduces some uncertainty regarding Anna Wolff's experience. The answer properly cites sources, but it does not fully address the question's requirements, leading to a reduction in correctness and hallucination scores."
+      }
+    },
+    {
+      "id": "U01",
+      "category": "unanswerable",
+      "question": "What is NovaTech's office address in Ljubljana?",
+      "expected": "NOT IN DOCUMENTS — system should clearly refuse",
+      "actual_answer": "NovaTech Consulting d.o.o. is located in Ljubljana, Slovenia [1], [5], [6]. The exact address is not provided in the documents.",
+      "sources": [
+        "pp_002_retailpro_dynamics.md",
+        "mn_004_internal_lessons_q2.md",
+        "mn_006_greenenergy_kickoff.md",
+        "pp_001_adriatic_petrochemical.md",
+        "pp_003_biomed_sap.md"
+      ],
+      "confidence": "high",
+      "latency_seconds": 0.53,
+      "scores": {
+        "correctness": 3,
+        "hallucination": 3,
+        "source_citation": 3,
+        "uncertainty": 3,
+        "total": 12,
+        "explanation": "The AI assistant correctly refuses to provide the exact address of NovaTech's office in Ljubljana, citing that it is not provided in the documents. The response also properly cites sources and avoids hallucinations, demonstrating a strong performance in handling unanswerable questions."
+      }
+    },
+    {
+      "id": "U04",
+      "category": "unanswerable",
+      "question": "What is NovaTech's total revenue for 2022?",
+      "expected": "NOT IN DOCUMENTS — no annual revenue figures in corpus",
+      "actual_answer": "I don't have information in the NovaTech knowledge base to answer this.",
+      "sources": [
+        "mn_010_q3_strategy.md",
+        "mn_007_autoparts_closure.md",
+        "mn_011_balkanssteel_postmortem.md",
+        "pp_002_retailpro_dynamics.md",
+        "mn_004_internal_lessons_q2.md"
+      ],
+      "confidence": "none",
+      "latency_seconds": 10.86,
+      "scores": {
+        "correctness": 3,
+        "hallucination": 3,
+        "source_citation": 0,
+        "uncertainty": 3,
+        "total": 9,
+        "explanation": "The AI assistant correctly refused to answer the question about NovaTech's total revenue for 2022, as the information is not available in the knowledge base. The response accurately handled the unknown by stating the lack of information, avoiding any fabrication or incorrect citations."
+      }
+    },
+    {
+      "id": "T01",
+      "category": "trick_contradictory",
+      "question": "What was the BioMed Solutions budget spent as of May 2023?",
+      "expected": "CONTRADICTORY: May 10 meeting notes say 142000 EUR, May 31 status report says 145400 EUR. System should note both and explain the difference.",
+      "actual_answer": "The BioMed Solutions budget spent as of May 2023 was €145,400 [1]. However, document [3] from May 10 stated spent €142,000, which is inconsistent with [1]. Document [1] explains this contradiction, stating that the earlier notes predated the May 31 report, which shows €145,400 spent and €49,600 remaining, consistent with 3 more weeks of work [1].",
+      "sources": [
+        "tr_007_biomed_status_report.md",
+        "mn_004_internal_lessons_q2.md",
+        "mn_002_biomed_status.md",
+        "mn_001_kickoff_petrochemical.md",
+        "pp_003_biomed_sap.md"
+      ],
+      "confidence": "high",
+      "latency_seconds": 15.02,
+      "scores": {
+        "correctness": 3,
+        "hallucination": 3,
+        "source_citation": 3,
+        "uncertainty": 3,
+        "total": 12,
+        "explanation": "The answer accurately notes the contradiction between the two budget values and provides a clear explanation for the difference, citing specific documents. The response properly cites sources and avoids fabrication, demonstrating a strong handling of uncertainty and contradictory information."
+      }
+    },
+    {
+      "id": "T03",
+      "category": "trick_contradictory",
+      "question": "What is the price of Microsoft Dynamics 365 BC per user per month?",
+      "expected": "CONTRADICTORY: OUTDATED 2021 document says 57 EUR, current 2022 proposal says 17.78 EUR. System should prefer newer source and flag outdated document.",
+      "actual_answer": "€17.78/user/month for the Essential tier [1], [3]. Note that this is the 2022-2023 actual price, which differs from the 2021 reference price [2].",
+      "sources": [
+        "tr_009_outdated_pricing.md",
+        "pp_002_retailpro_dynamics.md",
+        "mn_003_retailpro_cloud.md",
+        "tr_004_change_management.md",
+        "mn_004_internal_lessons_q2.md"
+      ],
+      "confidence": "high",
+      "latency_seconds": 11.68,
+      "scores": {
+        "correctness": 3,
+        "hallucination": 3,
+        "source_citation": 3,
+        "uncertainty": 3,
+        "total": 12,
+        "explanation": "The answer provides the correct price of €17.78/user/month for the Essential tier, cites the sources properly, and notes the difference from the 2021 reference price, handling the contradiction effectively. The response accurately reflects the current price while acknowledging the outdated information, demonstrating a clear understanding of the contradictory sources."
+      }
+    }
+  ]
+}
