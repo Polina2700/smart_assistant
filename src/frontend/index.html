@@ -671,7 +671,7 @@
                         document.querySelectorAll('.lang-pill').forEach(p => p.classList.remove('active'));
                         btn.classList.add('active');
                         this.translateWelcome(opt.value);
-                        window.location.reload();
+                        // Don't reload — just update the welcome message in place
                     });
                     row.appendChild(btn);
                 });
@@ -739,11 +739,13 @@
                 const urlSessionId = urlParams.get('session_id');
 
                 if (urlSessionId) {
+                    // Widget mode: session comes from parent page (widget.js)
                     this.sessionId = urlSessionId;
                 } else {
-                    const stored = localStorage.getItem('erp_session_id');
+                    // Standalone mode: use sessionStorage so history resets on tab close/reload
+                    const stored = sessionStorage.getItem('novatech_session_id');
                     this.sessionId = stored || ('session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9));
-                    localStorage.setItem('erp_session_id', this.sessionId);
+                    sessionStorage.setItem('novatech_session_id', this.sessionId);
                 }
 
                 const displayId = this.isWidgetMode ? this.sessionId.substring(0, 12) + '...' : this.sessionId;
@@ -820,7 +822,7 @@
 
                 try {
                     const response = await this.callChatAPI(message);
-                    this.addMessage(response.response, 'bot', response.sources, response.log_id);
+                    this.addMessage(response.response, 'bot', response.sources, response.log_id, response.confidence);
                 } catch (error) {
                     this.addMessage('Sorry, I encountered an error. Please try again.', 'bot', [], null);
                     console.error('Chat error:', error);
@@ -857,7 +859,7 @@
 
                 if (data.session_id && data.session_id !== this.sessionId) {
                     this.sessionId = data.session_id;
-                    localStorage.setItem('erp_session_id', this.sessionId);
+                    sessionStorage.setItem('novatech_session_id', this.sessionId);
                     const displayId = this.isWidgetMode ? this.sessionId.substring(0, 12) + '...' : this.sessionId;
                     document.getElementById('sessionId').textContent = displayId;
                 }
@@ -865,7 +867,7 @@
                 return data;
             }
 
-            addMessage(content, sender, sources = [], logId = null) {
+            addMessage(content, sender, sources = [], logId = null, confidence = null) {
                 const chatMessages = document.getElementById('chatMessages');
 
                 const messageDiv = document.createElement('div');
@@ -916,6 +918,20 @@
 
                     details.appendChild(sourcesDiv);
                     messageContent.appendChild(details);
+                }
+
+                if (sender === 'bot' && confidence && confidence !== 'simple') {
+                    const confMap = {
+                        'high':   { label: '● High confidence',   color: '#16a34a', bg: '#f0fdf4' },
+                        'medium': { label: '● Medium confidence', color: '#d97706', bg: '#fffbeb' },
+                        'low':    { label: '● Low confidence',    color: '#dc2626', bg: '#fef2f2' },
+                        'none':   { label: '● No match found',    color: '#6b7280', bg: '#f9fafb' },
+                    };
+                    const conf = confMap[confidence] || confMap['low'];
+                    const badge = document.createElement('div');
+                    badge.style.cssText = `display:inline-block;margin-top:6px;margin-bottom:2px;padding:2px 9px;border-radius:10px;font-size:10px;font-weight:500;color:${conf.color};background:${conf.bg};border:1px solid ${conf.color}33;`;
+                    badge.textContent = conf.label;
+                    messageContent.appendChild(badge);
                 }
 
                 const timeDiv = document.createElement('div');

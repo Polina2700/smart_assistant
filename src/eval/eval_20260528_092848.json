@@ -1,0 +1,252 @@
+{
+  "timestamp": "2026-05-28T09:28:48.893262",
+  "session": "eval_20260528_092827",
+  "total_questions": 10,
+  "total_score": 47,
+  "max_possible": 120,
+  "overall_pct": 39.2,
+  "by_category": {
+    "simple": {
+      "questions": 2,
+      "avg_score": 11.0,
+      "avg_pct": 91.7
+    },
+    "multi_hop": {
+      "questions": 2,
+      "avg_score": 7.5,
+      "avg_pct": 62.5
+    },
+    "unanswerable": {
+      "questions": 3,
+      "avg_score": 3.33,
+      "avg_pct": 27.8
+    },
+    "trick_contradictory": {
+      "questions": 3,
+      "avg_score": 0.0,
+      "avg_pct": 0.0
+    }
+  },
+  "results": [
+    {
+      "id": "S01",
+      "category": "simple",
+      "question": "Who was the project manager for FoodDist?",
+      "expected": "Sarah Chen",
+      "actual_answer": "The project manager for FoodDist Logistics d.d. was Sarah Chen [3, 4].",
+      "sources": [
+        "mn_011_balkanssteel_postmortem.md",
+        "mn_004_internal_lessons_q2.md",
+        "tbl_003_client_satisfaction.csv"
+      ],
+      "confidence": "high",
+      "latency_seconds": 0.62,
+      "scores": {
+        "correctness": 3,
+        "hallucination": 3,
+        "source_citation": 3,
+        "uncertainty": 3,
+        "total": 12,
+        "explanation": "The system's answer is fully correct, provides clear source citations, and does not exhibit hallucinations or uncertainty issues, as it directly answers the question with accurate information and proper attribution. The response demonstrates a high level of factual accuracy and adherence to proper citation practices."
+      }
+    },
+    {
+      "id": "S03",
+      "category": "simple",
+      "question": "Which NovaTech consultant is certified for SAP S/4HANA Public Cloud?",
+      "expected": "Anna Wolff — the only consultant with public cloud certification",
+      "actual_answer": "According to [1] and [7], Anna Wolff is the only NovaTech consultant with SAP S/4HANA Public Cloud experience, but it is not explicitly stated that she is certified. However, [4] mentions that there is only 1 delivered project for SAP S/4HANA Public Cloud, which is associated with Anna Wolff. Additionally, [8] states that there is only 1 certified consultant for SAP S/4HANA Public Cloud, but it does not explicitly mention the name. Since Anna Wolff is the only consultant mentioned with public cloud experience, it can be inferred that she might be the certified consultant, but this is not explicitly confirmed. Document [1] does mention that Mark Horvat is a beginner in SAP S/4HANA Public Cloud, but it does not indicate certification. Therefore, based on the information available, Anna Wolff is likely the consultant certified for SAP S/4HANA Public Cloud, but this is not explicitly stated in the documents.",
+      "sources": [
+        "tbl_002_team_skills.csv",
+        "pp_004_greenenergy.md",
+        "tr_001_sap_cloud_framework.md"
+      ],
+      "confidence": "high",
+      "latency_seconds": 0.95,
+      "scores": {
+        "correctness": 2,
+        "hallucination": 2,
+        "source_citation": 3,
+        "uncertainty": 3,
+        "total": 10,
+        "explanation": "The system's answer is mostly correct, but it does not explicitly confirm Anna Wolff's certification, resulting in a minor gap in correctness. The system properly cites sources, avoids significant hallucinations, and handles uncertainty by noting the lack of explicit confirmation, demonstrating appropriate confidence and source attribution."
+      }
+    },
+    {
+      "id": "M01",
+      "category": "multi_hop",
+      "question": "Which NovaTech projects involved cloud migration and what were the key lessons learned?",
+      "expected": "MediaGroup (NAV to BC): custom reports underestimated, 70-80% need redesign. RetailPro: cancelled. GreenEnergy: SAP Public Cloud in progress. Key lesson: always audit customizations before quoting migration effort.",
+      "actual_answer": "NovaTech projects involving cloud migration include the MediaGroup project (NAV to BC migration) [4] and the RetailPro Balkans project (NAV 2016 to Dynamics 365 Business Central) [6], [7]. Key lessons learned from these projects include the importance of auditing customizations before quoting migration effort [4], verifying exact system version in the discovery phase [8], and including cost center mapping in the standard blueprinting checklist [8]. Additionally, the MediaGroup project highlighted that customizations in NAV rarely migrate cleanly to BC [4].",
+      "sources": [
+        "mn_006_greenenergy_kickoff.md",
+        "tbl_005_technology_matrix.csv",
+        "mn_004_internal_lessons_q2.md"
+      ],
+      "confidence": "high",
+      "latency_seconds": 0.85,
+      "scores": {
+        "correctness": 2,
+        "hallucination": 2,
+        "source_citation": 2,
+        "uncertainty": 3,
+        "total": 9,
+        "explanation": "The system's answer is mostly correct, but it provides additional information not present in the ground truth, such as verifying exact system version and including cost center mapping, which prevents it from being fully correct. The system properly cites sources and handles uncertainty by providing a confident answer without making up information or showing overconfidence."
+      }
+    },
+    {
+      "id": "M02",
+      "category": "multi_hop",
+      "question": "Who from the NovaTech team has worked on pharmaceutical or medical clients and what technologies did they use?",
+      "expected": "Tomasz Kowalski (PharmaCro — SAP ECC MM/QM, FDA 21 CFR Part 11), Mark Horvat (BioMed — SAP ECC FI/CO/MM/QM), Anna Wolff (PharmaCro remote FI support)",
+      "actual_answer": "Mark Horvat worked on BioMed Solutions, a medical client, using SAP S/4HANA [1]. No information is found about pharmaceutical clients.",
+      "sources": [
+        "mn_004_internal_lessons_q2.md",
+        "mn_007_autoparts_closure.md",
+        "mn_006_greenenergy_kickoff.md"
+      ],
+      "confidence": "high",
+      "latency_seconds": 0.4,
+      "scores": {
+        "correctness": 1,
+        "hallucination": 2,
+        "source_citation": 2,
+        "uncertainty": 1,
+        "total": 6,
+        "explanation": "The system's answer is partially correct as it mentions Mark Horvat's work on BioMed, but it lacks information about Tomasz Kowalski and Anna Wolff, and also incorrectly states the technology used by Mark Horvat. The system also demonstrates minor extrapolation by mentioning SAP S/4HANA, which is not present in the ground truth, and does not fully handle uncertainty by not providing information about pharmaceutical clients."
+      }
+    },
+    {
+      "id": "U01",
+      "category": "unanswerable",
+      "question": "What is NovaTech's office address in Ljubljana?",
+      "expected": "NOT IN DOCUMENTS — system should clearly state it cannot find this information",
+      "actual_answer": "NovaTech's office address in Ljubljana is not explicitly stated in the documents, only the city is mentioned [1], [2], [3], [6].",
+      "sources": [
+        "pp_002_retailpro_dynamics.md",
+        "pp_001_adriatic_petrochemical.md",
+        "mn_006_greenenergy_kickoff.md"
+      ],
+      "confidence": "high",
+      "latency_seconds": 7.75,
+      "scores": {
+        "correctness": 1,
+        "hallucination": 3,
+        "source_citation": 3,
+        "uncertainty": 3,
+        "total": 10,
+        "explanation": "The system's answer is partially correct as it states the office address is not explicitly mentioned, but it does provide some information about the city being mentioned. The system properly cites sources and handles uncertainty by refusing to provide an answer it cannot find, but the correctness score is reduced due to the minor implication that the city's mention is relevant to the question about the address."
+      }
+    },
+    {
+      "id": "U03",
+      "category": "unanswerable",
+      "question": "Does NovaTech have experience implementing Oracle Cloud ERP?",
+      "expected": "NO — Oracle appears only as a legacy source system in migrations, not as a target platform NovaTech implements. System should not hallucinate Oracle implementation experience.",
+      "actual_answer": "AI generation unavailable. Raw excerpts:\n\n**1. tbl_005_technology_matrix.csv**\nTechnology,Category,NovaTech Status,Certified Consultants,Projects Delivered,Notes\nOracle EBS,ERP,None,0,0,Not offered - referred to partners...\n**2. pp_003_biomed_sap.md**\n# Project Proposal — SAP ERP Implementation **Prepared for:** BioMed Solutions GmbH **Prepared by:** NovaTech Consulting **Date:** 2022-09-15 **Version:** 1.0 **Valid until:** 2022-10-15 --- ## Execut...\n**3. pp_004_greenenergy.md**\n— no SAP basis administration needed 2. Standard energy sector chart of accounts fits 3. Fast implementation (4 months vs 8 for on-premise) 4. Lower upfront cost 5. Automatic quarterly updates from SA...",
+      "sources": [
+        "tbl_005_technology_matrix.csv",
+        "pp_003_biomed_sap.md",
+        "pp_004_greenenergy.md"
+      ],
+      "confidence": "low",
+      "latency_seconds": 0.31,
+      "scores": {
+        "correctness": 0,
+        "hallucination": 0,
+        "source_citation": 0,
+        "uncertainty": 0,
+        "total": 0,
+        "explanation": "Evaluation failed"
+      }
+    },
+    {
+      "id": "U04",
+      "category": "unanswerable",
+      "question": "What is NovaTech's total revenue for 2022?",
+      "expected": "NOT IN DOCUMENTS — only 2023 quarterly strategy data available, no 2022 annual revenue figures",
+      "actual_answer": "AI generation unavailable. Raw excerpts:\n\n**1. mn_007_autoparts_closure.md**\n# Meeting Notes — AutoParts Project Closure Review **Client:** AutoParts d.d. **Date:** 2022-02-10 **Location:** NovaTech HQ **Attendees:** Mark Horvat (NovaTech), Anna Wolff (NovaTech), Drago Mešić (...\n**2. mn_010_q3_strategy.md**\n# Meeting Notes — Q3 2023 Internal Strategy Session **Date:** 2023-10-04 **Location:** NovaTech HQ **Attendees:** All staff (12 people) **Chair:** Lena Bauer ## Revenue Review 2023 (YTD) | Quarter | R...\n**3. pp_002_retailpro_dynamics.md**\nAssumptions 1. Client provides 2 dedicated key users for UAT 2. POS integration scoped separately (not included in this proposal) 3. Serbian tax compliance customization: €8,000 additional (included i...",
+      "sources": [
+        "mn_007_autoparts_closure.md",
+        "mn_010_q3_strategy.md",
+        "pp_002_retailpro_dynamics.md"
+      ],
+      "confidence": "low",
+      "latency_seconds": 0.18,
+      "scores": {
+        "correctness": 0,
+        "hallucination": 0,
+        "source_citation": 0,
+        "uncertainty": 0,
+        "total": 0,
+        "explanation": "Evaluation failed"
+      }
+    },
+    {
+      "id": "T01",
+      "category": "trick_contradictory",
+      "question": "What was the BioMed Solutions budget spent as of May 2023?",
+      "expected": "CONTRADICTORY: Meeting notes from May 10 say €142,000. Status report from May 31 says €145,400. Both correct for their dates. System should note the discrepancy and explain it.",
+      "actual_answer": "AI generation unavailable. Raw excerpts:\n\n**1. tr_007_biomed_status_report.md**\n# Project Status Report — BioMed Solutions GmbH **Report Type:** Monthly Status Report #8 **Period:** May 2023 **Author:** Mark Horvat **Date:** 2023-05-31 --- ## Executive Summary Project status: RED...\n**2. mn_004_internal_lessons_q2.md**\n# Meeting Notes — Internal Lessons Learned Session Q2 2023 **Type:** Internal NovaTech Meeting **Date:** 2023-07-05 **Location:** NovaTech HQ, Ljubljana **Attendees:** All project staff (12 people) **...\n**3. tbl_001_project_portfolio.csv**\nProject,Client,Start Date,End Date,Status,Original Budget (EUR),Final Cost (EUR),Over/Under,PM,Lead Architect,Modules,Notes\nPRJ-2023-02,BioMed Solutions GmbH,2022-10-01,,In Progress,195000,,,Mark Horv...",
+      "sources": [
+        "tr_007_biomed_status_report.md",
+        "mn_004_internal_lessons_q2.md",
+        "tbl_001_project_portfolio.csv"
+      ],
+      "confidence": "low",
+      "latency_seconds": 0.22,
+      "scores": {
+        "correctness": 0,
+        "hallucination": 0,
+        "source_citation": 0,
+        "uncertainty": 0,
+        "total": 0,
+        "explanation": "Evaluation failed"
+      }
+    },
+    {
+      "id": "T02",
+      "category": "trick_contradictory",
+      "question": "What SAP system was BioMed Solutions running before the NovaTech project?",
+      "expected": "CONTRADICTORY: Original proposal assumed SAP S/4HANA based on RFP. Actual system discovered in week 1 was SAP ECC 6.0 Enhancement Pack 8. System should note both and explain the discrepancy.",
+      "actual_answer": "AI generation unavailable. Raw excerpts:\n\n**1. pp_003_biomed_sap.md**\n# Project Proposal — SAP ERP Implementation **Prepared for:** BioMed Solutions GmbH **Prepared by:** NovaTech Consulting **Date:** 2022-09-15 **Version:** 1.0 **Valid until:** 2022-10-15 --- ## Execut...\n**2. mn_002_biomed_status.md**\n# Meeting Notes — BioMed Solutions ERP Status Review **Client:** BioMed Solutions GmbH **Date:** 2023-05-10 **Location:** Teams call **Attendees:** Mark Horvat (NovaTech), Lisa Park (NovaTech Junior C...\n**3. tbl_001_project_portfolio.csv**\nProject,Client,Start Date,End Date,Status,Original Budget (EUR),Final Cost (EUR),Over/Under,PM,Lead Architect,Modules,Notes\nPRJ-2023-02,BioMed Solutions GmbH,2022-10-01,,In Progress,195000,,,Mark Horv...",
+      "sources": [
+        "pp_003_biomed_sap.md",
+        "mn_002_biomed_status.md",
+        "tbl_001_project_portfolio.csv"
+      ],
+      "confidence": "low",
+      "latency_seconds": 0.12,
+      "scores": {
+        "correctness": 0,
+        "hallucination": 0,
+        "source_citation": 0,
+        "uncertainty": 0,
+        "total": 0,
+        "explanation": "Evaluation failed"
+      }
+    },
+    {
+      "id": "T03",
+      "category": "trick_contradictory",
+      "question": "What is the price of Microsoft Dynamics 365 BC per user per month?",
+      "expected": "CONTRADICTORY/OUTDATED: 2021 document (explicitly OUTDATED) says €57/user. 2022 proposal says €17.78/user. System should prefer newer source and note that old document is outdated.",
+      "actual_answer": "AI generation unavailable. Raw excerpts:\n\n**1. tr_009_outdated_pricing.md**\nPricing (2021 reference) - Essentials: €57/user/month - Premium: €82/user/month **2022-2023 actual (from RetailPro proposal): €17.78/user/month Essential** Note: The 2021 prices above appear incorrect...\n**2. tr_009_outdated_pricing.md**\n# Technical Note: SAP S/4HANA Cloud Pricing Reference **Author:** Anna Wolff **Date:** 2021-09-01 **Version:** 1.0 **STATUS: OUTDATED — See updated version from 2023** --- ## SAP S/4HANA Public Cloud ...\n**3. pp_002_retailpro_dynamics.md**\n# Project Proposal — Microsoft Dynamics 365 Business Central Migration **Prepared for:** RetailPro Balkans d.o.o. **Prepared by:** NovaTech Consulting **Date:** 2022-11-25 **Version:** 2.0 **Valid unt...",
+      "sources": [
+        "tr_009_outdated_pricing.md",
+        "pp_002_retailpro_dynamics.md",
+        "mn_003_retailpro_cloud.md"
+      ],
+      "confidence": "low",
+      "latency_seconds": 0.11,
+      "scores": {
+        "correctness": 0,
+        "hallucination": 0,
+        "source_citation": 0,
+        "uncertainty": 0,
+        "total": 0,
+        "explanation": "Evaluation failed"
+      }
+    }
+  ]
+}

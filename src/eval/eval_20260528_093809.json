@@ -1,0 +1,208 @@
+{
+  "timestamp": "2026-05-28T09:38:31.064635",
+  "total_questions": 8,
+  "total_score": 46,
+  "max_possible": 96,
+  "overall_pct": 47.9,
+  "judge_model": "llama-3.3-70b-versatile",
+  "by_category": {
+    "simple": {
+      "questions": 2,
+      "avg_score": 6.0,
+      "avg_pct": 50.0
+    },
+    "multi_hop": {
+      "questions": 2,
+      "avg_score": 3.0,
+      "avg_pct": 25.0
+    },
+    "unanswerable": {
+      "questions": 2,
+      "avg_score": 5.5,
+      "avg_pct": 45.8
+    },
+    "trick_contradictory": {
+      "questions": 2,
+      "avg_score": 8.5,
+      "avg_pct": 70.8
+    }
+  },
+  "results": [
+    {
+      "id": "S01",
+      "category": "simple",
+      "question": "Who was the project manager for FoodDist?",
+      "expected": "Sarah Chen",
+      "actual_answer": "AI generation unavailable. Raw excerpts:\n\n**1. mn_011_balkanssteel_postmortem.md**\ncause: no super user program, training was one-day classroom session ### 3. Resource Issues (timeline impact) - Mark was 70% on this project, 30% on another — not sufficient for complexity - Junior co...\n**2. mn_004_internal_lessons_q2.md**\n# Meeting Notes — Internal Lessons Learned Session Q2 2023 **Type:** Internal NovaTech Meeting **Date:** 2023-07-05 **Location:** NovaTech HQ, Ljubljana **Attendees:** All project staff (12 people) **...\n**3. tbl_003_client_satisfaction.csv**\nProject ID,Client,Year,Overall Satisfaction (1-5),Delivery on Time (1-5),Budget Adherence (1-5),Technical Quality (1-5),Communication (1-5),Would Recommend (Yes/No),Comments\nPRJ-2022-01,FoodDist Logis...",
+      "sources": [
+        "mn_011_balkanssteel_postmortem.md",
+        "mn_004_internal_lessons_q2.md",
+        "tbl_003_client_satisfaction.csv"
+      ],
+      "confidence": "low",
+      "latency_seconds": 0.27,
+      "scores": {
+        "correctness": 0,
+        "hallucination": 3,
+        "source_citation": 0,
+        "uncertainty": 3,
+        "total": 6,
+        "explanation": "The AI assistant was unable to provide a correct answer as the provided excerpts do not contain information about the project manager for FoodDist. The assistant correctly handles the uncertainty by refusing to provide an answer instead of making something up."
+      }
+    },
+    {
+      "id": "S03",
+      "category": "simple",
+      "question": "Which NovaTech consultant is certified for SAP S/4HANA Public Cloud?",
+      "expected": "Anna Wolff — the only consultant with public cloud certification",
+      "actual_answer": "AI generation unavailable. Raw excerpts:\n\n**1. tbl_002_team_skills.csv**\nConsultant,Role,Years at NovaTech,SAP ECC,SAP S/4HANA OnPrem,SAP S/4HANA Public Cloud,SAP S/4HANA Private Cloud,Dynamics NAV,Dynamics 365 BC,ABAP Development,Project Management,Industry: Manufacturing...\n**2. tbl_002_team_skills.csv**\nConsultant,Role,Years at NovaTech,SAP ECC,SAP S/4HANA OnPrem,SAP S/4HANA Public Cloud,SAP S/4HANA Private Cloud,Dynamics NAV,Dynamics 365 BC,ABAP Development,Project Management,Industry: Manufacturing...\n**3. pp_004_greenenergy.md**\n— no SAP basis administration needed 2. Standard energy sector chart of accounts fits 3. Fast implementation (4 months vs 8 for on-premise) 4. Lower upfront cost 5. Automatic quarterly updates from SA...",
+      "sources": [
+        "tbl_002_team_skills.csv",
+        "pp_004_greenenergy.md",
+        "tr_001_sap_cloud_framework.md"
+      ],
+      "confidence": "low",
+      "latency_seconds": 0.27,
+      "scores": {
+        "correctness": 0,
+        "hallucination": 3,
+        "source_citation": 0,
+        "uncertainty": 3,
+        "total": 6,
+        "explanation": "The AI assistant was unable to provide a correct answer due to lack of relevant information, but it did not fabricate any information and correctly handled the uncertainty by not providing an answer. The provided excerpts do not contain sufficient information to determine which consultant is certified for SAP S/4HANA Public Cloud."
+      }
+    },
+    {
+      "id": "M01",
+      "category": "multi_hop",
+      "question": "Which NovaTech projects involved cloud migration and what were the key lessons learned?",
+      "expected": "MediaGroup (NAV to BC): custom reports underestimated, 70-80% need redesign. RetailPro: cancelled. GreenEnergy: SAP Public Cloud in progress. Key lesson: audit customizations before quoting.",
+      "actual_answer": "AI generation unavailable. Raw excerpts:\n\n**1. mn_006_greenenergy_kickoff.md**\ndelivery. Anna Wolff is the only NovaTech consultant with public cloud experience (1 previous project)....\n**2. tbl_005_technology_matrix.csv**\nTechnology,Category,NovaTech Status,Certified Consultants,Projects Delivered,Notes\nGoogle Cloud Platform,Cloud,None,0,0,No experience - referred to partners...\n**3. tbl_005_technology_matrix.csv**\nTechnology,Category,NovaTech Status,Certified Consultants,Projects Delivered,Notes\nPython,Programming,Active,3,Multiple,Data migration and integration scripting...",
+      "sources": [
+        "mn_006_greenenergy_kickoff.md",
+        "tbl_005_technology_matrix.csv",
+        "mn_004_internal_lessons_q2.md"
+      ],
+      "confidence": "low",
+      "latency_seconds": 0.1,
+      "scores": {
+        "correctness": 0,
+        "hallucination": 0,
+        "source_citation": 0,
+        "uncertainty": 3,
+        "total": 3,
+        "explanation": "The AI was unable to generate an answer, so it cannot be evaluated for correctness or hallucination, and it did not provide any source citations. However, it properly handled the uncertainty by not providing an answer instead of guessing, which is why it scores 3 for uncertainty."
+      }
+    },
+    {
+      "id": "M02",
+      "category": "multi_hop",
+      "question": "Who from the NovaTech team worked on pharmaceutical or medical clients?",
+      "expected": "Tomasz Kowalski (PharmaCro — SAP ECC MM/QM), Mark Horvat (BioMed — SAP ECC FI/CO/MM/QM), Anna Wolff (PharmaCro remote FI support)",
+      "actual_answer": "AI generation unavailable. Raw excerpts:\n\n**1. mn_006_greenenergy_kickoff.md**\ndelivery. Anna Wolff is the only NovaTech consultant with public cloud experience (1 previous project)....\n**2. mn_004_internal_lessons_q2.md**\n# Meeting Notes — Internal Lessons Learned Session Q2 2023 **Type:** Internal NovaTech Meeting **Date:** 2023-07-05 **Location:** NovaTech HQ, Ljubljana **Attendees:** All project staff (12 people) **...\n**3. mn_010_q3_strategy.md**\nRiku can cover technical. **Decision: Maintain current capacity. No expansion planned.** ### New Geographies Current: Slovenia, Croatia, Serbia, Germany (BioMed), Austria (occasional). Discussion abou...",
+      "sources": [
+        "mn_006_greenenergy_kickoff.md",
+        "mn_004_internal_lessons_q2.md",
+        "mn_010_q3_strategy.md"
+      ],
+      "confidence": "low",
+      "latency_seconds": 0.1,
+      "scores": {
+        "correctness": 0,
+        "hallucination": 0,
+        "source_citation": 0,
+        "uncertainty": 3,
+        "total": 3,
+        "explanation": "The AI was unable to provide a correct answer due to lack of relevant information in the provided excerpts. However, it correctly handled the uncertainty by not providing a guess and instead indicating that the answer was unavailable."
+      }
+    },
+    {
+      "id": "U01",
+      "category": "unanswerable",
+      "question": "What is NovaTech's office address in Ljubljana?",
+      "expected": "NOT IN DOCUMENTS — system should clearly refuse",
+      "actual_answer": "AI generation unavailable. Raw excerpts:\n\n**1. pp_002_retailpro_dynamics.md**\nrecommended before contract | | Serbian compliance gaps | Scoped and included in proposal | | December peak season conflict | Go-live planned April 2023 | --- ## Why NovaTech for This Project - Riku T...\n**2. pp_001_adriatic_petrochemical.md**\n- Hardware/infrastructure - Post go-live support beyond 60 days hypercare --- ## References Available upon request. Key references: FoodDist Logistics (2022), MediaGroup d.o.o. (2021). --- *NovaTech C...\n**3. mn_006_greenenergy_kickoff.md**\n# Meeting Notes — GreenEnergy Slovenia Kickoff **Client:** GreenEnergy Slovenia d.o.o. **Date:** 2023-06-05 **Location:** Client Office, Ljubljana **Attendees:** Lisa Park (NovaTech PM — first PM role...",
+      "sources": [
+        "pp_002_retailpro_dynamics.md",
+        "pp_001_adriatic_petrochemical.md",
+        "mn_006_greenenergy_kickoff.md"
+      ],
+      "confidence": "low",
+      "latency_seconds": 0.21,
+      "scores": {
+        "correctness": 0,
+        "hallucination": 3,
+        "source_citation": 2,
+        "uncertainty": 0,
+        "total": 5,
+        "explanation": "The AI failed to refuse the question about NovaTech's office address in Ljubljana, instead providing unrelated excerpts. The system should have clearly stated that the information is not available in the documents."
+      }
+    },
+    {
+      "id": "U04",
+      "category": "unanswerable",
+      "question": "What is NovaTech's total revenue for 2022?",
+      "expected": "NOT IN DOCUMENTS — no annual revenue figures in corpus",
+      "actual_answer": "AI generation unavailable. Raw excerpts:\n\n**1. mn_007_autoparts_closure.md**\n# Meeting Notes — AutoParts Project Closure Review **Client:** AutoParts d.d. **Date:** 2022-02-10 **Location:** NovaTech HQ **Attendees:** Mark Horvat (NovaTech), Anna Wolff (NovaTech), Drago Mešić (...\n**2. mn_010_q3_strategy.md**\n# Meeting Notes — Q3 2023 Internal Strategy Session **Date:** 2023-10-04 **Location:** NovaTech HQ **Attendees:** All staff (12 people) **Chair:** Lena Bauer ## Revenue Review 2023 (YTD) | Quarter | R...\n**3. pp_002_retailpro_dynamics.md**\nAssumptions 1. Client provides 2 dedicated key users for UAT 2. POS integration scoped separately (not included in this proposal) 3. Serbian tax compliance customization: €8,000 additional (included i...",
+      "sources": [
+        "mn_007_autoparts_closure.md",
+        "mn_010_q3_strategy.md",
+        "pp_002_retailpro_dynamics.md"
+      ],
+      "confidence": "low",
+      "latency_seconds": 0.2,
+      "scores": {
+        "correctness": 0,
+        "hallucination": 3,
+        "source_citation": 0,
+        "uncertainty": 3,
+        "total": 6,
+        "explanation": "The AI assistant correctly refused to provide an answer due to the lack of information in the documents, avoiding hallucinations and handling uncertainty properly. However, it failed to provide any source citations and did not demonstrate factual accuracy since the question was unanswerable."
+      }
+    },
+    {
+      "id": "T01",
+      "category": "trick_contradictory",
+      "question": "What was the BioMed Solutions budget spent as of May 2023?",
+      "expected": "CONTRADICTORY: May 10 meeting notes say 142000 EUR, May 31 status report says 145400 EUR. System should note both and explain the difference.",
+      "actual_answer": "AI generation unavailable. Raw excerpts:\n\n**1. tr_007_biomed_status_report.md**\n# Project Status Report — BioMed Solutions GmbH **Report Type:** Monthly Status Report #8 **Period:** May 2023 **Author:** Mark Horvat **Date:** 2023-05-31 --- ## Executive Summary Project status: RED...\n**2. mn_004_internal_lessons_q2.md**\n# Meeting Notes — Internal Lessons Learned Session Q2 2023 **Type:** Internal NovaTech Meeting **Date:** 2023-07-05 **Location:** NovaTech HQ, Ljubljana **Attendees:** All project staff (12 people) **...\n**3. tbl_001_project_portfolio.csv**\nProject,Client,Start Date,End Date,Status,Original Budget (EUR),Final Cost (EUR),Over/Under,PM,Lead Architect,Modules,Notes\nPRJ-2023-02,BioMed Solutions GmbH,2022-10-01,,In Progress,195000,,,Mark Horv...",
+      "sources": [
+        "tr_007_biomed_status_report.md",
+        "mn_004_internal_lessons_q2.md",
+        "tbl_001_project_portfolio.csv"
+      ],
+      "confidence": "low",
+      "latency_seconds": 0.22,
+      "scores": {
+        "correctness": 0,
+        "hallucination": 3,
+        "source_citation": 2,
+        "uncertainty": 0,
+        "total": 5,
+        "explanation": "The AI was unable to provide a correct answer due to the lack of direct information about the BioMed Solutions budget spent as of May 2023, and it failed to note the contradictory values from the meeting notes and status report. The available data includes the original budget and a status report, but the actual spent budget is not clearly stated, leading to an incomplete response."
+      }
+    },
+    {
+      "id": "T03",
+      "category": "trick_contradictory",
+      "question": "What is the price of Microsoft Dynamics 365 BC per user per month?",
+      "expected": "CONTRADICTORY: OUTDATED 2021 document says 57 EUR, current 2022 proposal says 17.78 EUR. System should prefer newer source and flag outdated document.",
+      "actual_answer": "AI generation unavailable. Raw excerpts:\n\n**1. tr_009_outdated_pricing.md**\nPricing (2021 reference) - Essentials: €57/user/month - Premium: €82/user/month **2022-2023 actual (from RetailPro proposal): €17.78/user/month Essential** Note: The 2021 prices above appear incorrect...\n**2. tr_009_outdated_pricing.md**\n# Technical Note: SAP S/4HANA Cloud Pricing Reference **Author:** Anna Wolff **Date:** 2021-09-01 **Version:** 1.0 **STATUS: OUTDATED — See updated version from 2023** --- ## SAP S/4HANA Public Cloud ...\n**3. pp_002_retailpro_dynamics.md**\n# Project Proposal — Microsoft Dynamics 365 Business Central Migration **Prepared for:** RetailPro Balkans d.o.o. **Prepared by:** NovaTech Consulting **Date:** 2022-11-25 **Version:** 2.0 **Valid unt...",
+      "sources": [
+        "tr_009_outdated_pricing.md",
+        "pp_002_retailpro_dynamics.md",
+        "mn_003_retailpro_cloud.md"
+      ],
+      "confidence": "low",
+      "latency_seconds": 0.1,
+      "scores": {
+        "correctness": 3,
+        "hallucination": 3,
+        "source_citation": 3,
+        "uncertainty": 3,
+        "total": 12,
+        "explanation": "The AI correctly identifies the contradictory information and prefers the newer source, stating the current price of Microsoft Dynamics 365 BC per user per month as 17.78 EUR. The system properly handles the uncertainty by noting the outdated document and the newer proposal, providing a clear and accurate answer with proper source citation."
+      }
+    }
+  ]
+}

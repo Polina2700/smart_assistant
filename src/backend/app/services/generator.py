@@ -1,13 +1,14 @@
 """
-Generator Service — Answer generation using Groq API
+Generator Service — Answer generation using Groq API (llama-3.3-70b-versatile)
 Supports conversation history and multilingual responses.
 """
 
 import os
+import re
 import logging
 from typing import List, Dict
-from groq import Groq
 from dotenv import load_dotenv
+from groq import Groq
 
 load_dotenv()
 
@@ -19,7 +20,10 @@ class GeneratorService:
 
     def __init__(self):
         try:
-            self.client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+            api_key = os.getenv("GROQ_API_KEY")
+            if not api_key:
+                raise ValueError("GROQ_API_KEY not set in .env")
+            self.client = Groq(api_key=api_key)
             logger.info(f"Generator initialized with model: {GROQ_MODEL}")
         except Exception as e:
             logger.error(f"Generator initialization failed: {e}")
@@ -42,10 +46,7 @@ class GeneratorService:
                 max_tokens=1500,
             )
             answer = response.choices[0].message.content.strip()
-            # Clean inline source references like [Source 4: filename.csv]
-            import re
             answer = re.sub(r'\[Source \d+: [^\]]+\]', '', answer).strip()
-            # Clean [Source N] keeping only short [N]
             answer = re.sub(r'\[Source (\d+)\]', r'[\1]', answer)
         except Exception as e:
             logger.error(f"Groq generation failed: {e}", exc_info=True)
@@ -118,17 +119,20 @@ class GeneratorService:
 
     def _build_prompt(self, query: str, context: str, history: List[Dict], language: str, has_context: bool) -> str:
         system = f"""You are an AI assistant for NovaTech Consulting's internal knowledge base.
-        NovaTech is an ERP consulting company. You have access to internal documents about projects, clients, team, and methodologies.
+NovaTech is an ERP consulting company. You have access to internal documents about projects, clients, team, and methodologies.
 
-        RULES:
-        1. Answer ONLY based on the provided documents. Never use outside knowledge.
-        2. Cite sources using short notation like [1], [2] — never include filenames in citations.
-        3. CONTRADICTION CHECK (mandatory): Before answering, scan ALL provided documents for conflicting information on the same topic. If found — report both values and their sources explicitly. Example: "Document [1] says X, but document [2] says Y — this may be because..."
-        4. OUTDATED CHECK: If any document is marked as OUTDATED or STATUS: OUTDATED — mention this and prefer the newer source.
-        5. If the answer is not in the documents, say clearly: "I don't have information in the NovaTech knowledge base to answer this."
-        6. Be concise. Match answer length to question complexity.
-        7. Always respond in {language}.
-        8. For questions about project managers, clients, or team assignments — always check table/CSV sources first, as they contain the most structured project data.\n"""
+RULES:
+1. Answer ONLY based on the provided documents. Never use outside knowledge.
+2. Cite sources using short notation like [1], [2] — never include filenames in citations.
+3. CONTRADICTION CHECK (mandatory): Before answering, scan ALL provided documents for conflicting information on the same topic. If found — report both values and their sources explicitly. Example: "Document [1] says X, but document [2] says Y — this may be because..."
+4. OUTDATED CHECK: If any document is marked as OUTDATED or STATUS: OUTDATED — mention this and prefer the newer source.
+5. If the answer is not in the documents, say clearly: "I don't have information in the NovaTech knowledge base to answer this."
+6. Be concise. Match answer length to question complexity.
+7. Always respond in {language}.
+8. For questions about project managers, clients, or team assignments — always check table/CSV sources first, as they contain the most structured project data.
+9. STRICT NO-HALLUCINATION for unanswerable: If information is not explicitly stated in the documents, say EXACTLY: 'I don't have information in the NovaTech knowledge base to answer this.' Do NOT say 'based in Ljubljana', 'likely', 'probably', or infer from context. Silence is better than a guess.
+10. "9. For questions asking about MULTIPLE projects, clients, or team members — make sure to check ALL retrieved documents, not just the first one. List ALL relevant items you find.
+"""
 
         history_text = ""
         if history:
@@ -153,7 +157,7 @@ class GeneratorService:
             self._history[session_id] = []
         self._history[session_id].extend([
             {"role": "user", "content": query},
-            {"role": "model", "content": answer},
+            {"role": "assistant", "content": answer},
         ])
         if len(self._history[session_id]) > 20:
             self._history[session_id] = self._history[session_id][-20:]
@@ -190,8 +194,16 @@ class GeneratorService:
 
     def _fallback_response(self, chunks: List[Dict], query: str) -> Dict:
         if not chunks:
-            return {"answer": "I couldn't find relevant information in the NovaTech knowledge base.", "sources": [], "used_context": 0, "confidence": "none"}
+            return {
+                "answer": "I couldn't find relevant information in the NovaTech knowledge base.",
+                "sources": [], "used_context": 0, "confidence": "none"
+            }
         parts = ["AI generation unavailable. Raw excerpts:\n"]
         for i, chunk in enumerate(chunks[:3], 1):
             parts.append(f"**{i}. {chunk['filename']}**\n{chunk['text'][:200]}...")
-        return {"answer": "\n".join(parts), "sources": self._extract_sources(chunks), "used_context": len(chunks), "confidence": "low"}
+        return {
+            "answer": "\n".join(parts),
+            "sources": self._extract_sources(chunks),
+            "used_context": len(chunks),
+            "confidence": "low"
+        }

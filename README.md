@@ -24,7 +24,7 @@ pip install -r requirements.txt
 
 # 4. Configure environment
 cp .env.example .env
-# Edit .env and add your GROQ_API_KEY
+# Edit .env and add your GEMINI_API_KEY
 
 # 5. Run
 python run.py
@@ -78,7 +78,7 @@ smart_assistant/
 │   │   │       └── generator.py  # Groq generation, conversation history
 │   │   ├── run.py
 │   │   ├── requirements.txt
-│   │   └── .env                  # GROQ_API_KEY (not in git)
+│   │   └── .env                  # GEMINI_API_KEY (not in git)
 │   ├── eval/
 │   │   └── eval.py               # 15-question LLM-as-judge evaluation
 │   └── frontend/
@@ -181,7 +181,7 @@ Results saved to `eval/eval_YYYYMMDD_HHMMSS.json`.
 Create `src/backend/.env`:
 
 ```env
-GROQ_API_KEY=your_groq_api_key_here
+GEMINI_API_KEY=your_gemini_api_key_here
 API_BASE=http://127.0.0.1:8000/api
 ALLOWED_ORIGINS=http://localhost:8000,http://127.0.0.1:8000
 ```

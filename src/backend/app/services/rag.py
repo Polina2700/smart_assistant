@@ -6,13 +6,15 @@ Architecture:
 1. TF-IDF retrieval — fast, exact keyword matching
 2. Sentence embeddings retrieval — semantic similarity
 3. Reciprocal Rank Fusion — combines both rankings
-4. Groq generation — answers in user's preferred language
+4. Gemini generation — answers in user's preferred language
 """
 
 import os
 import re
 import math
 import json
+import pickle
+import hashlib
 import logging
 from pathlib import Path
 from typing import List, Dict, Tuple, Optional
@@ -24,8 +26,11 @@ logger = logging.getLogger(__name__)
 # PATHS
 # ─────────────────────────────────────────────
 
-# Documents folder is at project root: smart_assistant/documents/
-DOCS_DIR = Path(__file__).parent.parent.parent.parent.parent / "documents"
+# Documents folder: configurable via env, defaults to smart_assistant/documents/
+_default_docs = Path(__file__).parent.parent.parent.parent.parent / "documents"
+DOCS_DIR = Path(os.environ.get("DOCS_DIR", str(_default_docs)))
+
+INDEX_DIR = Path(__file__).parent.parent.parent / "index"
 
 
 # ─────────────────────────────────────────────
@@ -295,13 +300,68 @@ class RAGService:
             logger.error("No documents loaded!")
             return
 
-        self.all_chunks, self.idf = build_tfidf_index(self.docs)
-        logger.info(f"TF-IDF index: {len(self.all_chunks)} chunks")
-
-        self.embedding_index.build(self.all_chunks)
+        current_hash = self._get_docs_hash()
+        if self._load_index(current_hash):
+            logger.info("Loading index from cache")
+        else:
+            logger.info("Building fresh index (documents changed)")
+            self.all_chunks, self.idf = build_tfidf_index(self.docs)
+            logger.info(f"TF-IDF index: {len(self.all_chunks)} chunks")
+            self.embedding_index.build(self.all_chunks)
+            self._save_index(current_hash)
 
         self._ready = True
         logger.info("RAG service ready")
+
+    def _get_docs_hash(self) -> str:
+        h = hashlib.md5()
+        for path in sorted(DOCS_DIR.rglob("*")):
+            if path.suffix in (".md", ".txt", ".csv"):
+                h.update(path.name.encode())
+                h.update(str(path.stat().st_mtime).encode())
+        return h.hexdigest()
+
+    def _save_index(self, current_hash: str):
+        try:
+            INDEX_DIR.mkdir(parents=True, exist_ok=True)
+            with open(INDEX_DIR / "chunks.pkl", "wb") as f:
+                pickle.dump(self.all_chunks, f)
+            with open(INDEX_DIR / "idf.pkl", "wb") as f:
+                pickle.dump(self.idf, f)
+            if self.embedding_index.chunk_embeddings is not None:
+                import numpy as np
+                np.save(str(INDEX_DIR / "embeddings.npy"), self.embedding_index.chunk_embeddings)
+            (INDEX_DIR / "docs_hash.txt").write_text(current_hash)
+            logger.info(f"Index saved to cache ({len(self.all_chunks)} chunks)")
+        except Exception as e:
+            logger.warning(f"Cache save failed: {e}")
+
+    def _load_index(self, current_hash: str) -> bool:
+        hash_file = INDEX_DIR / "docs_hash.txt"
+        if not hash_file.exists():
+            return False
+        if hash_file.read_text().strip() != current_hash:
+            return False
+        required = [INDEX_DIR / "chunks.pkl", INDEX_DIR / "idf.pkl"]
+        if not all(f.exists() for f in required):
+            return False
+        try:
+            with open(INDEX_DIR / "chunks.pkl", "rb") as f:
+                self.all_chunks = pickle.load(f)
+            with open(INDEX_DIR / "idf.pkl", "rb") as f:
+                self.idf = pickle.load(f)
+            emb_file = INDEX_DIR / "embeddings.npy"
+            if emb_file.exists():
+                import numpy as np
+                from sentence_transformers import SentenceTransformer
+                self.embedding_index.model = SentenceTransformer(self.embedding_index.model_name)
+                self.embedding_index.chunk_embeddings = np.load(str(emb_file))
+                self.embedding_index.chunks_ref = self.all_chunks
+            logger.info(f"Loaded {len(self.all_chunks)} chunks from cache")
+            return True
+        except Exception as e:
+            logger.warning(f"Cache load failed: {e}")
+            return False
 
     def search(self, query: str, top_k: int = 5) -> List[Dict]:
         """

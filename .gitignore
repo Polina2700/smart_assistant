@@ -2,5 +2,11 @@
 secrets/
 __pycache__/
 *.pyc
+*.pyo
 venv/
 chat_logs.db
+src/backend/index/
+*.egg-info/
+.DS_Store
+Thumbs.db
+*.log

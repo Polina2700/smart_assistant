@@ -1,0 +1,137 @@
+{
+  "timestamp": "2026-05-28T08:18:58.355564",
+  "session": "eval_20260528_081834",
+  "total_questions": 5,
+  "total_score": 37,
+  "max_possible": 60,
+  "overall_pct": 61.7,
+  "by_category": {
+    "simple": {
+      "questions": 2,
+      "avg_score": 10.5,
+      "avg_pct": 87.5
+    },
+    "multi_hop": {
+      "questions": 2,
+      "avg_score": 5.5,
+      "avg_pct": 45.8
+    },
+    "unanswerable": {
+      "questions": 1,
+      "avg_score": 5.0,
+      "avg_pct": 41.7
+    }
+  },
+  "results": [
+    {
+      "id": "S01",
+      "category": "simple",
+      "question": "Who was the project manager for FoodDist?",
+      "expected": "Sarah Chen",
+      "actual_answer": "The project manager for FoodDist Logistics d.d. was Sarah Chen [3, 4].",
+      "sources": [
+        "mn_011_balkanssteel_postmortem.md",
+        "mn_004_internal_lessons_q2.md",
+        "tbl_003_client_satisfaction.csv"
+      ],
+      "confidence": "high",
+      "latency_seconds": 0.59,
+      "scores": {
+        "correctness": 3,
+        "hallucination": 3,
+        "source_citation": 3,
+        "uncertainty": 3,
+        "total": 12,
+        "explanation": "The system's answer is fully correct, provides clear source citations, and does not exhibit hallucinations or uncertainty issues, as it directly answers the question with proper attribution. The addition of '[3, 4]' suggests that the system is referencing specific sources, further supporting its correctness and citation scores."
+      }
+    },
+    {
+      "id": "S03",
+      "category": "simple",
+      "question": "Which NovaTech consultant is certified for SAP S/4HANA Public Cloud?",
+      "expected": "Anna Wolff — the only consultant with public cloud certification",
+      "actual_answer": "According to [1] and [7], Anna Wolff is the only NovaTech consultant with SAP S/4HANA Public Cloud experience, but it's not explicitly stated that she is certified. However, [8] mentions that there is 1 certified consultant for SAP S/4HANA Public Cloud, and [7] states that Anna Wolff is the only one with public cloud experience, implying it might be her.",
+      "sources": [
+        "tbl_002_team_skills.csv",
+        "pp_004_greenenergy.md",
+        "tr_001_sap_cloud_framework.md"
+      ],
+      "confidence": "high",
+      "latency_seconds": 0.5,
+      "scores": {
+        "correctness": 2,
+        "hallucination": 2,
+        "source_citation": 3,
+        "uncertainty": 2,
+        "total": 9,
+        "explanation": "The system's answer is mostly correct, but it makes a minor extrapolation by implying Anna Wolff is certified based on the available information, and it properly cites sources to support its claim. The system also handles uncertainty by noting that it's not explicitly stated that Anna Wolff is certified, but it could be more confident in its implication."
+      }
+    },
+    {
+      "id": "M01",
+      "category": "multi_hop",
+      "question": "Which NovaTech projects involved cloud migration and what were the key lessons learned?",
+      "expected": "MediaGroup (NAV to BC): custom reports underestimated, 70-80% need redesign. RetailPro: cancelled. GreenEnergy: SAP Public Cloud in progress. Key lesson: always audit customizations before quoting migration effort.",
+      "actual_answer": "NovaTech has experience with cloud migrations, specifically with Azure and AWS [4]. Key lessons learned include auditing customizations before quoting migration effort, as customizations in NAV rarely migrate cleanly to BC [4], and the importance of verifying exact system version in the discovery phase [8]. Additionally, risk-adjusted estimates are now required due to budget overrun experiences [4].",
+      "sources": [
+        "mn_006_greenenergy_kickoff.md",
+        "tbl_005_technology_matrix.csv",
+        "mn_004_internal_lessons_q2.md"
+      ],
+      "confidence": "high",
+      "latency_seconds": 0.64,
+      "scores": {
+        "correctness": 1,
+        "hallucination": 1,
+        "source_citation": 2,
+        "uncertainty": 0,
+        "total": 4,
+        "explanation": "The system's answer is partially correct as it mentions auditing customizations before quoting migration effort, but it lacks specific details about the projects and key lessons learned, and also includes unsupported claims about Azure and AWS. The system provides general references with citations, but fails to handle uncertainty and makes up some information, resulting in lower scores for correctness, hallucination, and uncertainty."
+      }
+    },
+    {
+      "id": "M02",
+      "category": "multi_hop",
+      "question": "Who from the NovaTech team has worked on pharmaceutical or medical clients and what technologies did they use?",
+      "expected": "Tomasz Kowalski (PharmaCro — SAP ECC MM/QM, FDA 21 CFR Part 11), Mark Horvat (BioMed — SAP ECC FI/CO/MM/QM), Anna Wolff (PharmaCro remote FI support)",
+      "actual_answer": "Mark Horvat has worked on a medical client, BioMed Solutions, using SAP S/4HANA [1]. Additionally, the team discussed the BioMed project, but no other pharmaceutical or medical clients are mentioned in the provided documents [1], [6].",
+      "sources": [
+        "mn_004_internal_lessons_q2.md",
+        "mn_007_autoparts_closure.md",
+        "mn_006_greenenergy_kickoff.md"
+      ],
+      "confidence": "high",
+      "latency_seconds": 5.52,
+      "scores": {
+        "correctness": 1,
+        "hallucination": 2,
+        "source_citation": 2,
+        "uncertainty": 2,
+        "total": 7,
+        "explanation": "The system's answer is partially correct as it mentions Mark Horvat's work on a medical client, but it lacks information about Tomasz Kowalski and Anna Wolff, and also incorrectly states the technology used by Mark Horvat. The system properly cites sources and avoids significant hallucinations, but does not fully address the question's requirements, showing some uncertainty in its response."
+      }
+    },
+    {
+      "id": "U01",
+      "category": "unanswerable",
+      "question": "What is NovaTech's office address in Ljubljana?",
+      "expected": "NOT IN DOCUMENTS — system should clearly state it cannot find this information",
+      "actual_answer": "NovaTech's office address in Ljubljana is not explicitly stated, but the company is mentioned as \"NovaTech Consulting d.o.o. | Ljubljana, Slovenia\" in [1] and [2].",
+      "sources": [
+        "pp_002_retailpro_dynamics.md",
+        "pp_001_adriatic_petrochemical.md",
+        "mn_006_greenenergy_kickoff.md"
+      ],
+      "confidence": "high",
+      "latency_seconds": 7.69,
+      "scores": {
+        "correctness": 1,
+        "hallucination": 2,
+        "source_citation": 2,
+        "uncertainty": 0,
+        "total": 5,
+        "explanation": "The system's answer is partially correct as it mentions the company's presence in Ljubljana, but it fails to clearly state that the office address is not available, and instead provides indirect information. The system's inability to correctly handle uncertainty and refusal to provide a direct answer results in a low score for uncertainty."
+      }
+    }
+  ]
+}
